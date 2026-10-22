@@ -2917,6 +2917,20 @@ button > svg {
   margin-right: 9px;
   border-radius: 7px;
 }
+.category-filters button > span,
+.advanced-filters > p > span,
+.stack-diagram .eyebrow,
+.story-copy > .eyebrow,
+.callout p,
+.editorial-note .eyebrow,
+.workload-inputs > .eyebrow,
+.number-input > input::placeholder,
+.brief-card textarea::placeholder {
+  color: #59684f;
+}
+.tool-mark {
+  color: color-mix(in srgb, var(--mark) 82%, #152410);
+}
 @media(max-width:600px) {
   .brand-logo {width:26px;height:26px;vertical-align:-3px;margin-right:7px}
 }

@@ -128,7 +128,7 @@ npm run check           # TypeScript
 npm run package:site    # dist/public + dist/panoramix-siteground.zip
 ```
 
-GitHub Actions runs validation, tests, type checking and packaging for pushes, pull requests and manual runs. It does not need secrets and does not deploy to your web host.
+The validation workflow runs tests, type checking and packaging for pushes, pull requests and manual runs. It does not need secrets and never deploys to your web host.
 
 An additional, strictly manual [SiteGround FTPS workflow](docs/DEPLOYMENT.md) is available if you prefer encrypted GitHub secrets to an FTP client. It checks and proves the document root, requires a reviewed existing-index hash, and never runs on a push or community submission.
 

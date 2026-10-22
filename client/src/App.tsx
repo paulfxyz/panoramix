@@ -810,7 +810,7 @@ export default function App() {
                       </div>
                       <span
                         className="eyebrow"
-                        style={{ color: family(t.family).color }}
+                      style={{ color: `color-mix(in srgb, ${family(t.family).color} 80%, #152410)` }}
                       >
                         {family(t.family).name}
                       </span>

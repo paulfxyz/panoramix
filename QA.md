@@ -35,3 +35,17 @@
 - Apply requires the reviewed catalogue hash.
 - Accepted report IDs cannot be replayed.
 - GitHub CI validates/tests/typechecks and packages only; it never deploys or auto-accepts community reports.
+
+## Verification record
+
+Local validation completed for v1.0.0:
+
+- Ten automated Node regression tests pass, including isolated CLI dry-run, guarded apply and replay rejection.
+- TypeScript and production build pass; the npm dependency audit reports no known vulnerabilities at the check time.
+- Chromium desktop and 375px mobile: main navigation, search, filters/reset, sorting/pagination, table/card mode, four-tool limit, shortlist filter, comparison, field notes, official-link popup, recipes, landscape drilldown, methodology, text/CSV export and empty state exercised.
+- Cost checks: USD20 token scenario; USD50 media scenario; USD40 GPU scenario; USD30 seat scenario; USD27 when a 10% fee and USD5 fixed charge are added to the USD20 scenario.
+- Initial mobile card layout and mobile quote panels inspected; no page-wide horizontal overflow, console errors or broken illustration. Comparison tables deliberately scroll.
+- Reduced-motion rendering, static subdirectory serving, and invalid-catalogue recovery checked.
+- Small secondary-label contrast inspected and adjusted; landscape recheck found no visible small-label contrast failures.
+
+Public domain deployment is separate. FTPS login, path proof and public askpanoramix.com verification require the encrypted FTP_CONNECTION secret and ready hosting; no successful production upload is claimed by these local checks.
