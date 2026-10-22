@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Panoramix potion leaf">
+  <rect width="128" height="128" rx="30" fill="#254c38"/>
+  <path d="M48 28h30M53 29v25L37 79c-10 17-1 29 16 29h25c17 0 26-12 16-29L73 54V29" fill="none" stroke="#f8f7e9" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M47 84c4-16 19-19 32-18 0 16-9 29-24 25" fill="#b1c994"/>
+  <path d="m51 94 19-18" fill="none" stroke="#254c38" stroke-width="4" stroke-linecap="round"/>
+  <path d="m97 28 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#d5a472"/>
+</svg>

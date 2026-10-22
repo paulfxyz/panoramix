@@ -1,0 +1,17 @@
+# Panoramix is static. No rewrites, PHP, database, or server process required.
+Options -Indexes
+<IfModule mod_mime.c>
+  AddType application/json .json
+  AddType application/javascript .js
+  AddType image/webp .webp
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "^(index\.html|catalog\.json)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(js|css|webp)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

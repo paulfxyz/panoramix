@@ -1,0 +1,35 @@
+{
+  "name": "panoramix",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An open-source, static AI comparison workbench. Find your magic mix.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5000",
+    "build": "npm run validate && vite build && node scripts/prepare-dist.mjs",
+    "preview": "vite preview --host 0.0.0.0 --port 5000",
+    "check": "tsc --noEmit",
+    "validate": "node scripts/validate.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "report:merge": "node scripts/merge-reports.mjs",
+    "package:site": "npm run build && cd dist/public && zip -qr ../panoramix-siteground.zip ."
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "typescript": "^5.6.3",
+    "vite": "^7.3.6"
+  },
+  "engines": {"node": ">=22"},
+  "repository": {"type":"git","url":"https://github.com/paulfxyz/panoramix.git"},
+  "homepage": "https://askpanoramix.com"
+}

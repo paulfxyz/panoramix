@@ -1,0 +1,19 @@
+{
+  "schemaVersion":1,
+  "reportId":"example-groq-docs-review",
+  "submittedAt":"2026-10-22",
+  "author":"Example contributor",
+  "license":"MIT",
+  "summary":"Documentation example only: reconfirm the existing Groq access field. Do not submit or merge unchanged.",
+  "changes":[{
+    "toolId":"groq",
+    "expected":{"access":"Hosted API"},
+    "set":{"access":"Hosted API"},
+    "evidence":[{
+      "field":"access",
+      "url":"https://console.groq.com/docs/overview",
+      "checkedAt":"2026-10-22",
+      "note":"The official overview documents a hosted API endpoint and SDK examples. Recheck the page yourself before using this as a real submission."
+    }]
+  }]
+}

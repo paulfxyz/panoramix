@@ -1,0 +1,37 @@
+name: Manual SiteGround FTPS deployment
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Inspect paths, prove the document root, or deploy the static build
+        type: choice
+        options: [inspect, probe, deploy]
+        default: inspect
+        required: true
+      expected_index_sha256:
+        description: For deploy, exact SHA-256 from the probe; use absent if no index exists
+        type: string
+        required: false
+permissions:
+  contents: read
+concurrency:
+  group: siteground-production
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test && npm run check && npm run build
+      - name: Inspect, verify or deploy without logging credentials
+        env:
+          FTP_CONNECTION: ${{ secrets.FTP_CONNECTION }}
+          DEPLOY_MODE: ${{ inputs.mode }}
+          EXPECTED_HASH: ${{ inputs.expected_index_sha256 }}
+        run: python3 scripts/ftps-deploy.py --mode "$DEPLOY_MODE" --expected-index-sha256 "$EXPECTED_HASH"

@@ -1,0 +1,32 @@
+name: Community research report
+description: Propose a source-backed catalogue update using the Panoramix standard.
+title: "[Research] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please read [CONTRIBUTING.md](https://github.com/paulfxyz/panoramix/blob/main/CONTRIBUTING.md).
+        Reports are reviewed periodically, not written directly to the website.
+        Never include API keys, private data, or confidential benchmark material.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What changed?
+      description: Name the affected tools and explain the finding.
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: Standard JSON report
+      description: Use reports/report.schema.json and the example report. Include expected values and field-level HTTPS evidence.
+      render: json
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Contribution agreement
+      options:
+        - label: I checked the cited material, distinguished evidence from opinion, included no secrets or personal data, and submit my original contribution under MIT.
+          required: true

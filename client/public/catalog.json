@@ -1,0 +1,1426 @@
+{
+  "version": 1,
+  "updated": "2026-10-22",
+  "tools": [
+    {
+      "id": "computer",
+      "name": "Perplexity Computer",
+      "family": "agents",
+      "description": "An outcome-driven workspace combining research, code, browser work, and multiple AI models.",
+      "access": "Hosted workspace",
+      "features": [
+        "research",
+        "browser",
+        "code",
+        "connectors",
+        "text",
+        "image",
+        "video"
+      ],
+      "billing": "Plan / usage; check current terms",
+      "best": "Research-to-deliverable work across tools.",
+      "watch": "Execution usage is not equivalent to a token price. Review action permissions and current plan limits.",
+      "source": "https://www.perplexity.ai/hub/blog/introducing-perplexity-computer",
+      "tags": [
+        "research",
+        "reports",
+        "agents",
+        "general",
+        "multimodel",
+        "no-code"
+      ]
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "family": "gateways",
+      "description": "A unified model API with provider selection and fallback routing.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "routing",
+        "openai"
+      ],
+      "billing": "Model usage + applicable platform fees",
+      "best": "Trying and routing across model providers.",
+      "watch": "Model and provider choices affect price, privacy, availability, and supported parameters.",
+      "source": "https://openrouter.ai/docs/guides/routing/provider-selection",
+      "extra": "https://openrouter.ai/pricing",
+      "tags": [
+        "api",
+        "text",
+        "routing",
+        "fallback",
+        "coding",
+        "budget",
+        "multimodel"
+      ]
+    },
+    {
+      "id": "runware",
+      "name": "Runware",
+      "family": "media",
+      "description": "A generation API spanning images, video, audio, text, and 3D.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "openai"
+      ],
+      "billing": "Per model / task; verify quote",
+      "best": "Building multi-modal media generation into a product.",
+      "watch": "Not the same product layer as a general LLM gateway; endpoint and model capabilities differ.",
+      "source": "https://runware.ai/docs",
+      "extra": "https://runware.ai/docs/tools/compatible-apis",
+      "tags": [
+        "api",
+        "image",
+        "video",
+        "audio",
+        "generation",
+        "media",
+        "batch"
+      ]
+    },
+    {
+      "id": "manus",
+      "name": "Manus",
+      "family": "agents",
+      "description": "An autonomous agent that plans and executes tasks in an internet-connected sandbox.",
+      "access": "Hosted workspace",
+      "features": [
+        "code",
+        "text"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Handing off a multi-step task end to end.",
+      "watch": "Validate connectors, task reliability, permissions, and current plan limits for your exact job.",
+      "source": "https://manus.im/docs/introduction/welcome",
+      "tags": [
+        "agents",
+        "general",
+        "research",
+        "reports",
+        "no-code"
+      ]
+    },
+    {
+      "id": "cowork",
+      "name": "Claude Cowork",
+      "family": "agents",
+      "description": "Multi-step knowledge work across files and connected tools, with work returned for review.",
+      "access": "Web / desktop / mobile",
+      "features": [
+        "text",
+        "research",
+        "connectors",
+        "schedule"
+      ],
+      "billing": "Subscription; usage limits apply",
+      "best": "Documents, analysis, and work in approved local folders.",
+      "watch": "Local computer access requires desktop; only the folders and tools you approve are accessible.",
+      "source": "https://claude.com/product/cowork",
+      "tags": [
+        "agents",
+        "documents",
+        "reports",
+        "research",
+        "local",
+        "no-code"
+      ]
+    },
+    {
+      "id": "chatgpt-agent",
+      "name": "ChatGPT agent",
+      "family": "agents",
+      "description": "A virtual-computer agent for research, website interaction, and multi-step tasks.",
+      "access": "Hosted workspace",
+      "features": [
+        "text",
+        "research",
+        "browser",
+        "code",
+        "connectors",
+        "schedule"
+      ],
+      "billing": "Plan / usage; check current terms",
+      "best": "Moving from research to actions on websites.",
+      "watch": "The reviewed launch article is historical. Confirm current regional availability and limits.",
+      "source": "https://openai.com/index/introducing-chatgpt-agent/",
+      "tags": [
+        "agents",
+        "research",
+        "general",
+        "reports",
+        "browser",
+        "no-code"
+      ]
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "family": "agents",
+      "description": "An open-source assistant on your machine, connected to chat apps, files, and tools.",
+      "access": "Local / self-host",
+      "features": [
+        "text",
+        "browser",
+        "code",
+        "connectors",
+        "selfhost"
+      ],
+      "billing": "Software is free; model / hosting costs separate",
+      "best": "A personal assistant with local state and configurable models.",
+      "watch": "Local state does not guarantee local inference. Scope shell, browser, and messaging permissions carefully.",
+      "source": "https://openclaw.ai/",
+      "tags": [
+        "agents",
+        "private",
+        "local",
+        "control",
+        "messaging",
+        "open-source"
+      ]
+    },
+    {
+      "id": "gamut",
+      "name": "Gamut",
+      "family": "agents",
+      "description": "A shared workspace for AI teammates that use tools, run schedules, and build apps.",
+      "access": "Cloud / self-host",
+      "features": [
+        "text",
+        "browser",
+        "connectors",
+        "schedule",
+        "selfhost",
+        "image",
+        "video",
+        "audio"
+      ],
+      "billing": "Trial stated; ongoing terms n.a.",
+      "best": "Shared team agents with schedules and approvals.",
+      "watch": "Review sandbox scope, approval rules, model costs, and hosted versus self-hosted operation.",
+      "source": "https://gamut.so/",
+      "tags": [
+        "agents",
+        "team",
+        "automation",
+        "control",
+        "general",
+        "multimodel",
+        "open-source"
+      ]
+    },
+    {
+      "id": "genspark",
+      "name": "Genspark",
+      "family": "agents",
+      "description": "An AI workspace for creating slides, documents, media, code, and dashboards.",
+      "access": "Hosted workspace",
+      "features": [
+        "text",
+        "image",
+        "video",
+        "visual"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Creating work products in an all-in-one workspace.",
+      "watch": "The reviewed homepage gives broad scope, not a complete execution or integration specification.",
+      "source": "https://www.genspark.ai/",
+      "tags": [
+        "agents",
+        "reports",
+        "documents",
+        "creative",
+        "general",
+        "no-code"
+      ]
+    },
+    {
+      "id": "gemini-research",
+      "name": "Gemini Deep Research",
+      "family": "agents",
+      "description": "Plans web and selected Workspace research, then synthesizes a structured report.",
+      "access": "Web / mobile",
+      "features": [
+        "text",
+        "research",
+        "connectors",
+        "audio"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Source-driven research with optional Gmail, Drive, and Chat context.",
+      "watch": "Primarily a research workflow, not a like-for-like substitute for arbitrary computer execution.",
+      "source": "https://gemini.google/overview/deep-research/",
+      "tags": [
+        "agents",
+        "research",
+        "reports",
+        "documents",
+        "no-code"
+      ]
+    },
+    {
+      "id": "requesty",
+      "name": "Requesty",
+      "family": "gateways",
+      "description": "A unified LLM gateway with routing, observability, and provider management.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "routing",
+        "openai"
+      ],
+      "billing": "Verify current gateway and usage fees",
+      "best": "Managing production LLM traffic and provider flexibility.",
+      "watch": "Check routing policies, provider coverage, and the handling of upstream credentials.",
+      "source": "https://requesty.ai/",
+      "tags": [
+        "api",
+        "routing",
+        "fallback",
+        "observability",
+        "team",
+        "multimodel"
+      ]
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel AI Gateway",
+      "family": "gateways",
+      "description": "One API for models, provider routing, and fallbacks in the Vercel ecosystem.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "image",
+        "video",
+        "routing",
+        "openai"
+      ],
+      "billing": "Usage; billing / BYOK terms vary",
+      "best": "Adding multi-provider AI to a Vercel application.",
+      "watch": "Check the specific model, endpoint, credits, and BYOK conditions rather than assuming universal parity.",
+      "source": "https://vercel.com/docs/ai-gateway",
+      "tags": [
+        "api",
+        "routing",
+        "fallback",
+        "web",
+        "multimodel"
+      ]
+    },
+    {
+      "id": "nanogpt",
+      "name": "NanoGPT",
+      "family": "gateways",
+      "description": "Multi-model access for chat, writing, coding, and media, with a developer API.",
+      "access": "App + API",
+      "features": [
+        "text",
+        "image",
+        "video",
+        "openai"
+      ],
+      "billing": "Pay as you go",
+      "best": "Exploring many models through one account.",
+      "watch": "Automatic provider failover is not confirmed by the reviewed overview.",
+      "source": "https://nano-gpt.com/",
+      "tags": [
+        "api",
+        "text",
+        "multimodel",
+        "creative",
+        "coding"
+      ]
+    },
+    {
+      "id": "portkey",
+      "name": "Portkey",
+      "family": "gateways",
+      "description": "An AI gateway with routing, fallbacks, monitoring, and governance.",
+      "access": "Gateway / proxy",
+      "features": [
+        "text",
+        "routing",
+        "openai",
+        "selfhost"
+      ],
+      "billing": "Verify gateway plan + upstream usage",
+      "best": "Operating and observing multi-provider AI applications.",
+      "watch": "A gateway does not eliminate upstream bills. Confirm the deployment and feature tier you need.",
+      "source": "https://portkey.ai/docs/introduction/what-is-portkey",
+      "tags": [
+        "api",
+        "routing",
+        "fallback",
+        "observability",
+        "governance",
+        "team",
+        "control"
+      ]
+    },
+    {
+      "id": "litellm",
+      "name": "LiteLLM",
+      "family": "gateways",
+      "description": "A model proxy that normalizes API calls, routes requests, and tracks usage.",
+      "access": "Self-host / managed",
+      "features": [
+        "text",
+        "image",
+        "audio",
+        "routing",
+        "openai",
+        "selfhost"
+      ],
+      "billing": "Software / enterprise + upstream costs",
+      "best": "Controlling a multi-provider proxy in your own infrastructure.",
+      "watch": "Self-hosting adds operational work; compatible APIs still have provider-specific differences.",
+      "source": "https://docs.litellm.ai/",
+      "tags": [
+        "api",
+        "routing",
+        "fallback",
+        "private",
+        "control",
+        "self-host",
+        "open-source"
+      ]
+    },
+    {
+      "id": "cf-gateway",
+      "name": "Cloudflare AI Gateway",
+      "family": "gateways",
+      "description": "Observes and controls AI calls with logging, caching, rate limits, and fallbacks.",
+      "access": "Hosted gateway",
+      "features": [
+        "text",
+        "routing"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Adding a control layer around existing model providers.",
+      "watch": "This is not Workers AI. Model inference and gateway controls are different layers.",
+      "source": "https://developers.cloudflare.com/ai-gateway/",
+      "tags": [
+        "api",
+        "routing",
+        "fallback",
+        "observability",
+        "caching",
+        "control"
+      ]
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face Inference Providers",
+      "family": "gateways",
+      "description": "A unified proxy and token for multiple hosted model providers and tasks.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "image",
+        "video",
+        "audio",
+        "routing",
+        "openai"
+      ],
+      "billing": "Pay as you go; no extra provider markup stated",
+      "best": "Using the Hugging Face ecosystem across providers.",
+      "watch": "OpenAI-compatible endpoint is for chat; other tasks use inference clients. Coverage varies by provider.",
+      "source": "https://huggingface.co/docs/inference-providers/index",
+      "tags": [
+        "api",
+        "routing",
+        "multimodel",
+        "open-source",
+        "image",
+        "text"
+      ]
+    },
+    {
+      "id": "fal",
+      "name": "fal.ai",
+      "family": "media",
+      "description": "Hosted generative-media models and infrastructure for creative applications.",
+      "access": "Hosted API",
+      "features": [
+        "image",
+        "video",
+        "audio",
+        "custom"
+      ],
+      "billing": "Model / compute usage; verify quote",
+      "best": "Shipping media generation with a broad model selection.",
+      "watch": "Check model licenses, queue behavior, output settings, and custom deployment terms.",
+      "source": "https://fal.ai/",
+      "tags": [
+        "api",
+        "image",
+        "video",
+        "audio",
+        "generation",
+        "media",
+        "custom"
+      ]
+    },
+    {
+      "id": "replicate",
+      "name": "Replicate",
+      "family": "media",
+      "description": "Run published models, fine-tune supported models, or deploy your own.",
+      "access": "Hosted API",
+      "features": [
+        "image",
+        "video",
+        "custom"
+      ],
+      "billing": "n.a. on reviewed docs overview",
+      "best": "Prototyping with a model library and custom deployments.",
+      "watch": "Billing units and startup behavior vary by model and deployment; compare the same settings.",
+      "source": "https://replicate.com/docs",
+      "tags": [
+        "api",
+        "image",
+        "video",
+        "generation",
+        "media",
+        "custom",
+        "experimentation"
+      ]
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "family": "inference",
+      "description": "Hosted model inference with serverless, dedicated, and customization options.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "image",
+        "video",
+        "audio",
+        "openai",
+        "custom"
+      ],
+      "billing": "Usage / dedicated; verify quote",
+      "best": "Open-model applications with a path to customization.",
+      "watch": "OpenAI-compatible capabilities vary. Video uses a Together-native endpoint.",
+      "source": "https://www.together.ai/",
+      "extra": "https://docs.together.ai/docs/openai-api-compatibility",
+      "tags": [
+        "api",
+        "text",
+        "coding",
+        "batch",
+        "custom",
+        "open-source"
+      ]
+    },
+    {
+      "id": "fireworks",
+      "name": "Fireworks AI",
+      "family": "inference",
+      "description": "A model inference platform with deployment and fine-tuning capabilities.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "custom"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Moving open-model workloads into production.",
+      "watch": "Do not treat vendor performance claims as your benchmark; test your model, region, and concurrency.",
+      "source": "https://fireworks.ai/",
+      "tags": [
+        "api",
+        "text",
+        "coding",
+        "custom",
+        "batch",
+        "open-source"
+      ]
+    },
+    {
+      "id": "deepinfra",
+      "name": "DeepInfra",
+      "family": "inference",
+      "description": "Hosted LLMs and APIs for embeddings, image generation, speech, and more.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "image",
+        "audio",
+        "openai"
+      ],
+      "billing": "Usage; verify model quote",
+      "best": "Simple hosted access to open models.",
+      "watch": "OpenAI-compatible chat is documented; other tasks may use different API shapes.",
+      "source": "https://deepinfra.com/docs/openai_api",
+      "extra": "https://deepinfra.com/",
+      "tags": [
+        "api",
+        "text",
+        "image",
+        "audio",
+        "budget",
+        "batch",
+        "open-source"
+      ]
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "family": "inference",
+      "description": "Hosted LLM inference with an OpenAI-compatible interface.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "openai"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Evaluating latency-sensitive text applications.",
+      "watch": "Check current model choices, token limits, and sustained throughput using your own workload.",
+      "source": "https://console.groq.com/docs/overview",
+      "tags": [
+        "api",
+        "text",
+        "speed",
+        "interactive",
+        "coding"
+      ]
+    },
+    {
+      "id": "cerebras",
+      "name": "Cerebras Inference",
+      "family": "inference",
+      "description": "Wafer-scale model inference with API and dedicated-capacity options.",
+      "access": "API / dedicated",
+      "features": [
+        "text",
+        "openai"
+      ],
+      "billing": "Model / dedicated; verify quote",
+      "best": "Evaluating low-latency coding, reasoning, and agents.",
+      "watch": "API is mostly OpenAI compatible, not universally identical. Benchmark your actual requests.",
+      "source": "https://inference-docs.cerebras.ai/introduction",
+      "tags": [
+        "api",
+        "text",
+        "speed",
+        "coding",
+        "agents"
+      ]
+    },
+    {
+      "id": "novita",
+      "name": "Novita AI",
+      "family": "inference",
+      "description": "An AI platform combining model APIs and GPU infrastructure.",
+      "access": "API / GPU platform",
+      "features": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Exploring model APIs alongside GPU capacity.",
+      "watch": "Product breadth is not API parity. Verify each model and deployment's capabilities and terms.",
+      "source": "https://novita.ai/",
+      "tags": [
+        "api",
+        "text",
+        "image",
+        "video",
+        "audio",
+        "generation",
+        "gpu"
+      ]
+    },
+    {
+      "id": "nebius",
+      "name": "Nebius Token Factory",
+      "family": "inference",
+      "description": "An open-model inference API with dedicated endpoints and post-training options.",
+      "access": "API / dedicated",
+      "features": [
+        "text",
+        "openai",
+        "custom"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Open-model serving with dedicated and customization paths.",
+      "watch": "Validate model availability, service region, and post-training requirements before committing.",
+      "source": "https://nebius.com/token-factory",
+      "tags": [
+        "api",
+        "text",
+        "custom",
+        "batch",
+        "open-source"
+      ]
+    },
+    {
+      "id": "cf-workers",
+      "name": "Cloudflare Workers AI",
+      "family": "inference",
+      "description": "Runs a curated model catalog on Cloudflare's serverless GPU network.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "image"
+      ],
+      "billing": "Pay for use; free / paid plans",
+      "best": "Adding model inference to Cloudflare applications.",
+      "watch": "Model catalog and task limits differ from a general GPU host; AI Gateway is a separate product.",
+      "source": "https://developers.cloudflare.com/workers-ai/",
+      "tags": [
+        "api",
+        "text",
+        "edge",
+        "web",
+        "image"
+      ]
+    },
+    {
+      "id": "modal",
+      "name": "Modal",
+      "family": "gpu",
+      "description": "Run your own Python code, model inference, batch jobs, and training on serverless compute.",
+      "access": "Serverless compute",
+      "features": [
+        "text",
+        "custom",
+        "code"
+      ],
+      "billing": "Compute per second",
+      "best": "Custom models and bursty Python or GPU workloads.",
+      "watch": "You own more deployment decisions. Include cold starts, storage, idle settings, and maintenance in estimates.",
+      "source": "https://modal.com/docs/guide",
+      "tags": [
+        "api",
+        "gpu",
+        "custom",
+        "control",
+        "batch",
+        "python"
+      ]
+    },
+    {
+      "id": "baseten",
+      "name": "Baseten",
+      "family": "gpu",
+      "description": "Deploy and optimize open, custom, and fine-tuned models on managed or private infrastructure.",
+      "access": "Cloud / own VPC",
+      "features": [
+        "text",
+        "image",
+        "audio",
+        "custom",
+        "selfhost"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Production custom-model serving and dedicated workloads.",
+      "watch": "Infrastructure and optimization are a different buying decision from a model-routing gateway.",
+      "source": "https://www.baseten.co/",
+      "tags": [
+        "api",
+        "gpu",
+        "custom",
+        "control",
+        "enterprise",
+        "private"
+      ]
+    },
+    {
+      "id": "runpod",
+      "name": "Runpod",
+      "family": "gpu",
+      "description": "GPU Pods, serverless workers, and public model endpoints for AI workloads.",
+      "access": "Pods / serverless / API",
+      "features": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "custom"
+      ],
+      "billing": "Serverless per second; other products vary",
+      "best": "GPU deployment, ComfyUI, and custom inference workers.",
+      "watch": "OpenAI-style chat requires the relevant worker, such as vLLM; not every endpoint is compatible.",
+      "source": "https://docs.runpod.io/",
+      "extra": "https://docs.runpod.io/serverless/vllm/openai-compatibility",
+      "tags": [
+        "api",
+        "gpu",
+        "custom",
+        "control",
+        "image",
+        "video",
+        "batch"
+      ]
+    },
+    {
+      "id": "bedrock",
+      "name": "Amazon Bedrock",
+      "family": "cloud",
+      "description": "Foundation models and tools for production AI applications and agents inside AWS.",
+      "access": "AWS platform",
+      "features": [
+        "text",
+        "image"
+      ],
+      "billing": "Per product / model; verify quote",
+      "best": "AI applications within an AWS governance environment.",
+      "watch": "Region, model, guardrails, and adjacent AWS service charges need separate review.",
+      "source": "https://aws.amazon.com/bedrock/",
+      "tags": [
+        "api",
+        "cloud",
+        "enterprise",
+        "governance",
+        "aws",
+        "agents"
+      ]
+    },
+    {
+      "id": "vertex",
+      "name": "Vertex AI / Model Garden",
+      "family": "cloud",
+      "description": "Discover, customize, and deploy Google and partner models on Google Cloud.",
+      "access": "Google Cloud platform",
+      "features": [
+        "text",
+        "vision",
+        "image",
+        "video",
+        "custom"
+      ],
+      "billing": "Model / underlying compute usage",
+      "best": "Google Cloud applications and custom model deployment.",
+      "watch": "Open-model endpoints incur compute charges; deployment, tuning, and managed APIs have different cost structures.",
+      "source": "https://cloud.google.com/vertex-ai/generative-ai/docs/model-garden/explore-models",
+      "tags": [
+        "api",
+        "cloud",
+        "enterprise",
+        "governance",
+        "google",
+        "custom"
+      ]
+    },
+    {
+      "id": "azure",
+      "name": "Azure AI Foundry",
+      "family": "cloud",
+      "description": "An Azure platform bringing model catalogs, agents, tools, and governance together.",
+      "access": "Azure platform",
+      "features": [
+        "text",
+        "custom"
+      ],
+      "billing": "Per product + underlying services",
+      "best": "AI applications inside an Azure management environment.",
+      "watch": "Product naming and availability evolve. Check deployment-specific model, region, and network controls.",
+      "source": "https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-azure-ai-foundry",
+      "tags": [
+        "api",
+        "cloud",
+        "enterprise",
+        "governance",
+        "microsoft",
+        "agents"
+      ]
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI API",
+      "family": "models",
+      "description": "Direct access to OpenAI text, vision, image, audio, and agent-building capabilities.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "image",
+        "audio"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Using OpenAI models and native endpoint features directly.",
+      "watch": "Model-specific API capabilities and separate media billing require a workload-level comparison.",
+      "source": "https://platform.openai.com/docs/overview",
+      "tags": [
+        "api",
+        "text",
+        "image",
+        "audio",
+        "coding",
+        "agents",
+        "multimodal"
+      ]
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic API",
+      "family": "models",
+      "description": "Direct Claude access for text, vision, reasoning, code, and tool use.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Building directly on Claude's model and agent capabilities.",
+      "watch": "Vision input is not image generation. Direct prompting is not the same product as Cowork.",
+      "source": "https://docs.anthropic.com/en/docs/intro-to-claude",
+      "tags": [
+        "api",
+        "text",
+        "coding",
+        "agents",
+        "documents"
+      ]
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral API",
+      "family": "models",
+      "description": "Mistral's developer platform for language, multimodal, OCR, and audio applications.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "audio"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Direct Mistral usage, document workflows, and transcription.",
+      "watch": "Task-specific services have different endpoints and terms; confirm residency rather than assuming it.",
+      "source": "https://docs.mistral.ai/",
+      "tags": [
+        "api",
+        "text",
+        "audio",
+        "documents",
+        "ocr",
+        "coding"
+      ]
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "family": "coding",
+      "description": "A coding environment with agents that search, edit, build, and test software.",
+      "access": "Editor / terminal / agents",
+      "features": [
+        "text",
+        "code",
+        "connectors"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Daily software development with agent-assisted editing.",
+      "watch": "Agent scope and data access differ by surface; review repository permissions and model usage.",
+      "source": "https://cursor.com/",
+      "tags": [
+        "coding",
+        "software",
+        "developer",
+        "editor",
+        "agents"
+      ]
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "family": "coding",
+      "description": "Reads codebases, edits files, runs commands, and integrates with development tools.",
+      "access": "Terminal / IDE / desktop / web",
+      "features": [
+        "text",
+        "code",
+        "connectors"
+      ],
+      "billing": "Subscription / console; surface-dependent",
+      "best": "Agentic coding in existing repositories and developer workflows.",
+      "watch": "Local and cloud surfaces have different access. Commands and external actions need permission controls.",
+      "source": "https://code.claude.com/docs/en/overview",
+      "tags": [
+        "coding",
+        "software",
+        "developer",
+        "terminal",
+        "local",
+        "agents"
+      ]
+    },
+    {
+      "id": "codex",
+      "name": "OpenAI Codex",
+      "family": "coding",
+      "description": "A coding tool for understanding projects, building features, reviewing code, and fixing failures.",
+      "access": "Developer tool",
+      "features": [
+        "text",
+        "code"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Delegating implementation, debugging, and code review.",
+      "watch": "Confirm the current execution surface, plan limits, and repository permissions for your workflow.",
+      "source": "https://developers.openai.com/codex/",
+      "tags": [
+        "coding",
+        "software",
+        "developer",
+        "terminal",
+        "agents"
+      ]
+    },
+    {
+      "id": "lovable",
+      "name": "Lovable",
+      "family": "coding",
+      "description": "A natural-language platform for building, iterating on, and deploying full-stack web applications.",
+      "access": "Hosted builder",
+      "features": [
+        "text",
+        "code",
+        "visual"
+      ],
+      "billing": "Credit-based plans",
+      "best": "Going from an app idea to an editable, published prototype.",
+      "watch": "Budget separately for generation, runtime services, security review, and production QA.",
+      "source": "https://docs.lovable.dev/",
+      "tags": [
+        "coding",
+        "app",
+        "web",
+        "prototype",
+        "no-code",
+        "visual"
+      ]
+    },
+    {
+      "id": "n8n",
+      "name": "n8n",
+      "family": "automation",
+      "description": "A visual workflow builder mixing integrations, code, and AI agents.",
+      "access": "Cloud / self-host",
+      "features": [
+        "text",
+        "connectors",
+        "schedule",
+        "selfhost",
+        "visual"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Repeatable workflows with visibility and infrastructure control.",
+      "watch": "Self-hosted does not mean all model calls stay local. Review node secrets, retries, and approval steps.",
+      "source": "https://n8n.io/",
+      "tags": [
+        "automation",
+        "workflows",
+        "self-host",
+        "control",
+        "private",
+        "integration",
+        "agents"
+      ]
+    },
+    {
+      "id": "make",
+      "name": "Make",
+      "family": "automation",
+      "description": "A visual platform for connecting apps, data, models, and agentic workflows.",
+      "access": "Hosted builder",
+      "features": [
+        "text",
+        "connectors",
+        "visual"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Visual business processes and cross-app automations.",
+      "watch": "Check execution units, loops, third-party model bills, and failure handling for your scenario.",
+      "source": "https://www.make.com/en",
+      "tags": [
+        "automation",
+        "workflows",
+        "integration",
+        "no-code",
+        "visual",
+        "team"
+      ]
+    },
+    {
+      "id": "zapier",
+      "name": "Zapier",
+      "family": "automation",
+      "description": "App-triggered workflows and agents across a large integration ecosystem.",
+      "access": "Hosted platform",
+      "features": [
+        "text",
+        "connectors",
+        "visual"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Connecting business applications with trigger-based workflows.",
+      "watch": "Workflow steps, AI usage, and connected services are not interchangeable billing units.",
+      "source": "https://zapier.com/",
+      "tags": [
+        "automation",
+        "workflows",
+        "integration",
+        "no-code",
+        "team"
+      ]
+    },
+    {
+      "id": "lindy",
+      "name": "Lindy",
+      "family": "automation",
+      "description": "An AI teammate for connected business tools, recurring jobs, and team work.",
+      "access": "Hosted workspace",
+      "features": [
+        "text",
+        "connectors",
+        "schedule",
+        "browser"
+      ],
+      "billing": "Plan / shared credits; check terms",
+      "best": "Operational assistants across email, CRM, meetings, and chat.",
+      "watch": "Permissions, browser support, and pooled-credit rules depend on the plan and workspace setup.",
+      "source": "https://www.lindy.ai/",
+      "tags": [
+        "automation",
+        "workflows",
+        "agents",
+        "email",
+        "team",
+        "no-code"
+      ]
+    },
+    {
+      "id": "midjourney",
+      "name": "Midjourney",
+      "family": "creative",
+      "description": "A prompt-driven creative image generation service.",
+      "access": "Web / Discord",
+      "features": [
+        "image",
+        "visual"
+      ],
+      "billing": "Subscription",
+      "best": "Hands-on image exploration and visual direction.",
+      "watch": "A creative app is not automatically a general-purpose public generation API. Check rights and current access terms.",
+      "source": "https://docs.midjourney.com/hc/en-us/articles/32083055291277-Getting-Started-Guide",
+      "tags": [
+        "creative",
+        "image",
+        "art",
+        "design",
+        "no-code"
+      ]
+    },
+    {
+      "id": "krea",
+      "name": "Krea",
+      "family": "creative",
+      "description": "A visual creative suite for generating, editing, and enhancing images, video, and 3D.",
+      "access": "Creative workspace",
+      "features": [
+        "image",
+        "video",
+        "visual"
+      ],
+      "billing": "Plans / compute units",
+      "best": "Iterative visual work across multiple creative models.",
+      "watch": "Model access, output rights, concurrency, and compute allowances vary by plan.",
+      "source": "https://www.krea.ai/",
+      "tags": [
+        "creative",
+        "image",
+        "video",
+        "design",
+        "editing",
+        "no-code"
+      ]
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs",
+      "family": "creative",
+      "description": "Voice and audio tools, APIs, and conversational agents for speech-led experiences.",
+      "access": "Workspace + API",
+      "features": [
+        "audio",
+        "text"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Voiceovers, transcription, dubbing, and voice agents.",
+      "watch": "Review voice consent, commercial rights, model capabilities, and the billing unit for each service.",
+      "source": "https://elevenlabs.io/",
+      "tags": [
+        "creative",
+        "audio",
+        "voice",
+        "speech",
+        "transcription",
+        "api",
+        "agents"
+      ]
+    },
+    {
+      "id": "runway",
+      "name": "Runway",
+      "family": "creative",
+      "description": "A creative platform and developer API for generating and editing video, images, and audio.",
+      "access": "Workspace + API",
+      "features": [
+        "image",
+        "video",
+        "audio",
+        "visual"
+      ],
+      "billing": "n.a. on reviewed overview",
+      "best": "Video-led creative production and media workflows.",
+      "watch": "App subscriptions and developer API access are separate surfaces; verify the model and usage terms.",
+      "source": "https://runwayml.com/",
+      "tags": [
+        "creative",
+        "image",
+        "video",
+        "audio",
+        "editing",
+        "api",
+        "no-code"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "id": "agents",
+      "name": "Agent workspaces",
+      "short": "Agents",
+      "color": "#567253",
+      "description": "Give it an outcome. Review the work."
+    },
+    {
+      "id": "gateways",
+      "name": "Model gateways",
+      "short": "Gateways",
+      "color": "#487b8a",
+      "description": "One entry point to many model providers."
+    },
+    {
+      "id": "inference",
+      "name": "Direct inference",
+      "short": "Inference",
+      "color": "#89734b",
+      "description": "Run hosted models without the middle layer."
+    },
+    {
+      "id": "media",
+      "name": "Media APIs",
+      "short": "Media APIs",
+      "color": "#ad6849",
+      "description": "Generate images, video, and audio in your app."
+    },
+    {
+      "id": "gpu",
+      "name": "GPU & deployment",
+      "short": "GPU hosting",
+      "color": "#82729b",
+      "description": "Bring your own code, weights, or workflow."
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud AI platforms",
+      "short": "Cloud AI",
+      "color": "#647786",
+      "description": "Models and governance inside your cloud."
+    },
+    {
+      "id": "models",
+      "name": "First-party model APIs",
+      "short": "Model APIs",
+      "color": "#8c7863",
+      "description": "Go directly to the model maker."
+    },
+    {
+      "id": "coding",
+      "name": "Coding & app builders",
+      "short": "Coding",
+      "color": "#587c73",
+      "description": "Build, edit, test, and ship software."
+    },
+    {
+      "id": "automation",
+      "name": "Workflow automation",
+      "short": "Automation",
+      "color": "#a07842",
+      "description": "Connect your apps. Make work repeatable."
+    },
+    {
+      "id": "creative",
+      "name": "Creative studios",
+      "short": "Creative",
+      "color": "#a16e84",
+      "description": "Make and refine media in a visual workspace."
+    }
+  ],
+  "recipes": [
+    {
+      "id": "computer",
+      "title": "Find my digital coworker",
+      "description": "Research, execute, and return useful work. Compare Computer and its closest neighbours.",
+      "query": "Compare autonomous agents like Perplexity Computer for research reports and connected tools",
+      "family": "agents",
+      "icon": "agent",
+      "ids": [
+        "computer",
+        "manus",
+        "cowork",
+        "chatgpt-agent"
+      ],
+      "tone": "sage"
+    },
+    {
+      "id": "api",
+      "title": "One API, many models",
+      "description": "Route, observe, and fall back without tying your app to one supplier.",
+      "query": "I need a multi-model API gateway with routing and fallback",
+      "family": "gateways",
+      "icon": "route",
+      "ids": [
+        "openrouter",
+        "requesty",
+        "portkey",
+        "litellm"
+      ],
+      "tone": "blue"
+    },
+    {
+      "id": "media",
+      "title": "Brew a media pipeline",
+      "description": "Compare Runware-style APIs for image, video, and audio generation.",
+      "query": "Compare APIs for image and video generation for my product",
+      "family": "media",
+      "icon": "image",
+      "ids": [
+        "runware",
+        "fal",
+        "replicate",
+        "novita"
+      ],
+      "tone": "peach"
+    },
+    {
+      "id": "fast",
+      "title": "Make text feel instant",
+      "description": "A shortlist to benchmark for interactive LLM responses. No unverified speed leaderboard.",
+      "query": "I need direct text inference for fast interactive coding and agents",
+      "family": "inference",
+      "icon": "zap",
+      "ids": [
+        "groq",
+        "cerebras",
+        "fireworks",
+        "together"
+      ],
+      "tone": "sand"
+    },
+    {
+      "id": "local",
+      "title": "Keep more control",
+      "description": "Explore local and self-hostable systems, then check where the model calls actually go.",
+      "query": "I need self-hosted tools with local control",
+      "family": "all",
+      "icon": "shield",
+      "ids": [
+        "openclaw",
+        "litellm",
+        "n8n",
+        "gamut"
+      ],
+      "tone": "sage"
+    },
+    {
+      "id": "workflow",
+      "title": "Put busywork on repeat",
+      "description": "Connect apps, define triggers, and compare recurring operational workflows.",
+      "query": "Automate recurring business workflows with app integrations",
+      "family": "automation",
+      "icon": "workflow",
+      "ids": [
+        "n8n",
+        "make",
+        "zapier",
+        "lindy"
+      ],
+      "tone": "sand"
+    },
+    {
+      "id": "code",
+      "title": "From idea to shipped app",
+      "description": "Pick between an everyday coding agent and a natural-language app builder.",
+      "query": "I want to build and deploy a web app with a coding agent",
+      "family": "coding",
+      "icon": "code",
+      "ids": [
+        "cursor",
+        "claude-code",
+        "codex",
+        "lovable"
+      ],
+      "tone": "blue"
+    },
+    {
+      "id": "voice",
+      "title": "Give your product a voice",
+      "description": "Compare an audio specialist with model APIs and media platforms.",
+      "query": "I need audio speech transcription and voice APIs",
+      "family": "all",
+      "icon": "audio",
+      "ids": [
+        "elevenlabs",
+        "openai",
+        "mistral",
+        "runware"
+      ],
+      "tone": "peach"
+    },
+    {
+      "id": "gpu",
+      "title": "Bring your own model",
+      "description": "Compare custom deployments rather than off-the-shelf model gateways.",
+      "query": "Deploy custom models on GPU infrastructure with control",
+      "family": "gpu",
+      "icon": "server",
+      "ids": [
+        "modal",
+        "runpod",
+        "baseten",
+        "nebius"
+      ],
+      "tone": "blue"
+    },
+    {
+      "id": "creative",
+      "title": "Make something worth seeing",
+      "description": "Visual interfaces for creative direction, image editing, and video work.",
+      "query": "I want a visual creative studio for image and video editing",
+      "family": "creative",
+      "icon": "image",
+      "ids": [
+        "krea",
+        "runway",
+        "midjourney",
+        "elevenlabs"
+      ],
+      "tone": "peach"
+    }
+  ]
+}
