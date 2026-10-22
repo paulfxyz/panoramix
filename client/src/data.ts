@@ -148,11 +148,15 @@ const featureWords: Record<string, string[]> = {
 
 export type Brief = { families: Family[]; features: string[]; names: string[]; words: string[] };
 
+const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+/** Whole-word / whole-phrase match, so "fal" never matches "fallback". Words ending in a stem (e.g. "summar") still match longer forms. */
+const hit = (q: string, w: string) => new RegExp(`(^|[^a-z0-9])${esc(w)}(?=$|[^a-z0-9]|[a-z]{0,6}(?:$|[^a-z0-9]))`).test(q) && (w.length > 3 || new RegExp(`(^|[^a-z0-9])${esc(w)}($|[^a-z0-9])`).test(q));
+
 export function parseBrief(text: string): Brief {
   const q = text.toLowerCase();
-  const fam = (Object.keys(familyWords) as Family[]).filter((f) => familyWords[f].some((w) => q.includes(w)));
-  const feats = Object.keys(featureWords).filter((f) => featureWords[f].some((w) => q.includes(w)));
-  const names = tools.filter((t) => q.includes(t.name.toLowerCase()) || q.includes(t.id)).map((t) => t.id);
+  const fam = (Object.keys(familyWords) as Family[]).filter((f) => familyWords[f].some((w) => hit(q, w)));
+  const feats = Object.keys(featureWords).filter((f) => featureWords[f].some((w) => hit(q, w)));
+  const names = tools.filter((t) => hit(q, t.name.toLowerCase()) || new RegExp(`(^|[^a-z0-9])${esc(t.id)}($|[^a-z0-9])`).test(q)).map((t) => t.id);
   const words = q.split(/[^a-z0-9+-]+/).filter((w) => w.length > 3);
   return { families: fam, features: feats, names, words };
 }

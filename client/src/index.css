@@ -1482,6 +1482,10 @@ body.dark .dock-list li {
   gap: 40px;
   align-items: center;
 }
+.compare-radar .radar {
+  max-width: 480px;
+  margin-inline: auto;
+}
 .compare-side {
   display: grid;
   gap: 0;
