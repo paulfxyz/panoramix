@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 · 22 October 2026
+
+- Matcher uses whole-word matching, so short IDs such as "fal" no longer match words like "fallback"; gateway briefs now rank gateways first.
+- Radar capped at 480px inside the compare view so it fits tablet widths.
+
 ## 1.1.0 · 22 October 2026
 
 Complete redesign.
@@ -13,7 +18,6 @@ Complete redesign.
 - Recipes open directly into the compare view; the landscape section links each family into the catalogue.
 - Motion system: button lift, halo and sweep, animated add/check toggle, focus underline, scroll reveals, drawer and compare transitions, chart animations; all reduced-motion aware.
 - Removed the cost lab and CSV export to keep the product focused. Copy-as-text remains in the compare view.
-- Matcher uses whole-word matching so short IDs such as "fal" no longer match words like "fallback".
 - Catalogue schema, report standard, merge tooling and deployment workflow are unchanged.
 
 ## 1.0.1 · 22 October 2026

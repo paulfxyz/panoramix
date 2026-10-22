@@ -7,7 +7,7 @@
 **Find your magic mix.**
 
 <a href="https://askpanoramix.com"><img src="https://img.shields.io/badge/askpanoramix.com-ask_the_druid-111111?style=for-the-badge" alt="askpanoramix.com"></a>
-<img src="https://img.shields.io/badge/version-1.1.0-111111?style=for-the-badge" alt="version 1.1.0">
+<img src="https://img.shields.io/badge/version-1.1.1-111111?style=for-the-badge" alt="version 1.1.1">
 <img src="https://img.shields.io/badge/hosting-100%25_static-444444?style=for-the-badge" alt="100 percent static hosting">
 <img src="https://img.shields.io/badge/database-just_JSON-bd2636?style=for-the-badge" alt="No database server, just JSON">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" alt="MIT license"></a>
@@ -74,7 +74,7 @@ The six dimensions (Language, Media, Action, Research, Control, Workflow) are de
 
 ## Upload to SiteGround
 
-1. Download the [ready-to-host v1.1.0 ZIP](packages/panoramix-siteground-v1.1.0.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
+1. Download the [ready-to-host v1.1.1 ZIP](packages/panoramix-siteground-v1.1.1.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
 2. Extract `panoramix-siteground.zip`. Upload its **contents**, not the outer folder, to the configured document root for `askpanoramix.com` using your FTP/FTPS client.
 3. Confirm that `index.html`, `catalog.json`, the `art/` folder and the `assets/` folder are siblings. Include `.htaccess` if your FTP client hides dotfiles.
 4. Finish the domain and HTTPS setup in your hosting account. These are hosting-side operations, not requirements for a database.
