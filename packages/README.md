@@ -1,13 +1,11 @@
-# Static release packages
+# Packages
 
 These are generated, ready-to-host distributions, not source dependencies. The current maintenance package is v1.2.0.
 
-- [Panoramix v1.2.0 SiteGround ZIP](panoramix-siteground-v1.2.0.zip)
-- [Panoramix v1.0.0 SiteGround ZIP](panoramix-siteground-v1.0.0.zip)
-- [SHA-256 checksums](SHA256SUMS)
+- [Panoramix v1.2.0 SiteGround ZIP](panoramix-siteground-v1.2.0.zip) — built from commit `74f4c76`: the record, 45 checks, seven lenses, integrity seal.
+- [Panoramix v1.0.1 SiteGround ZIP](panoramix-siteground-v1.0.1.zip) — apothecary design, kept for reference.
+- [Panoramix v1.0.0 SiteGround ZIP](panoramix-siteground-v1.0.0.zip) — first release.
 
-Extract the ZIP and upload its contents to the configured document root. Do not upload this entire source repository. No Node runtime, backend or database is required on the host.
+Verify a download with `sha256sum -c SHA256SUMS`.
 
-The initial v1.0.0 archive was built from commit `5409b2f`; v1.2.0 includes the intermediate-width illustration overflow fix. Each package contains static HTML/CSS/JavaScript, the JSON catalogue, illustration, logo, social image, report schema and license notices. Packages do not contain credentials, deploy scripts, tests or private reports.
-
-Repository-hosted ZIPs are provided because the connected GitHub integration's binary release-upload endpoint was unavailable. Normal GitHub source ZIPs are not the same as this compiled hosting package.
+Each package contains static HTML/CSS/JavaScript, the JSON record, illustrations, logo, social image, report schema and license notices. Packages do not contain credentials, deploy scripts, tests or private reports. Unzip into the web root (for SiteGround: `public_html`), nothing else to configure.
