@@ -10,10 +10,15 @@ import io
 import json
 import os
 from pathlib import Path
+import re
 import ssl
 import sys
 import urllib.request
 import uuid
+
+
+class BrowserVerificationRequired(RuntimeError):
+    """The host asks an ordinary browser to complete its bot check."""
 
 
 def digest(value):
@@ -37,6 +42,8 @@ def public_get(base, filename):
         headers={"Cache-Control": "no-cache", "User-Agent": "Panoramix-deploy-verifier/1"},
     )
     with urllib.request.urlopen(request, timeout=35) as response:
+        if response.headers.get("sg-captcha", "").lower() == "challenge":
+            raise BrowserVerificationRequired("SiteGround requires normal-browser verification.")
         return response.read()
 
 
@@ -77,6 +84,69 @@ def probe(ftp, roots, base):
     raise RuntimeError("No candidate matched the public HTTPS domain; no site files were overwritten.")
 
 
+def browser_probe(ftp, roots):
+    """Stage public, non-secret markers for an operator's normal-browser check."""
+    batch = uuid.uuid4().hex
+    records = []
+    for index, root in enumerate(roots):
+        ftp.cwd(root)
+        marker = f"panoramix-path-{batch}-{index}.txt"
+        content = ("Panoramix path verification " + uuid.uuid4().hex).encode()
+        try:
+            ftp.storbinary("STOR " + marker, io.BytesIO(content))
+            if get_remote(ftp, marker) != content:
+                raise RuntimeError("Browser probe upload did not read back correctly.")
+            names = {Path(name).name for name in ftp.nlst()}
+            existing = get_remote(ftp, "index.html")
+            if "index.html" in names and existing is None:
+                raise RuntimeError("An existing entry point is unreadable.")
+            record = {
+                "root": root,
+                "marker": marker,
+                "sha256": digest(content),
+                "existing_index_sha256": digest(existing) if existing is not None else "absent",
+                "dynamic_site_files": bool({"wp-config.php", "index.php"}.intersection(names)),
+            }
+            records.append(record)
+            print("BROWSER_PROOF " + json.dumps(record))
+        except ftplib.error_perm:
+            print("Skipped an unwritable candidate; no site files overwritten.")
+    if not records:
+        raise RuntimeError("No candidate accepted a browser verification marker.")
+    print("Markers are public random text, not credentials. Verify the matching URL and SHA in a normal browser before deploy.")
+    return records
+
+
+def verify_browser_proof(ftp, roots, root, marker, expected_sha):
+    if root not in roots:
+        raise RuntimeError("Browser-verified root is not an accessible candidate.")
+    if not re.fullmatch(r"panoramix-path-[a-f0-9]{32}-[0-9]+\.txt", marker):
+        raise RuntimeError("Invalid browser proof marker name.")
+    if not re.fullmatch(r"[a-f0-9]{64}", expected_sha):
+        raise RuntimeError("Invalid browser proof SHA-256.")
+    ftp.cwd(root)
+    content = get_remote(ftp, marker)
+    if not content or not content.startswith(b"Panoramix path verification ") or digest(content) != expected_sha:
+        raise RuntimeError("Browser proof changed or is absent; run a fresh browser-probe.")
+    print("Accepted the operator's browser-verified public marker for:", root)
+    return marker.split("-")[2]
+
+
+def cleanup_browser_probe(ftp, roots, batch):
+    start = ftp.pwd()
+    pattern = re.compile(r"panoramix-path-" + re.escape(batch) + r"-[0-9]+\.txt")
+    for root in roots:
+        ftp.cwd(root)
+        for entry in ftp.nlst():
+            name = Path(entry).name
+            if pattern.fullmatch(name):
+                content = get_remote(ftp, name)
+                if content and content.startswith(b"Panoramix path verification "):
+                    ftp.delete(name)
+    ftp.cwd(start)
+    print("Temporary browser-proof markers removed.")
+
+
 def ensure_directory(ftp, root, relative):
     ftp.cwd(root)
     for part in relative.parts:
@@ -93,8 +163,11 @@ def ensure_directory(ftp, root, relative):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", choices=["inspect", "probe", "deploy"], default="inspect")
+    parser.add_argument("--mode", choices=["inspect", "probe", "browser-probe", "deploy"], default="inspect")
     parser.add_argument("--expected-index-sha256", default="")
+    parser.add_argument("--verified-root", default="")
+    parser.add_argument("--proof-marker", default="")
+    parser.add_argument("--proof-sha256", default="")
     parser.add_argument("--domain", default="askpanoramix.com")
     parser.add_argument("--dist", default="dist/public")
     args = parser.parse_args()
@@ -108,6 +181,8 @@ def main():
     ftp.connect(config["host"], int(config.get("port", 21)))
     ftp.login(config["username"], config["password"])
     ftp.prot_p()
+    proof_batch = None
+    roots = []
     try:
         roots = candidate_roots(ftp, args.domain, config.get("root"))
         if not roots:
@@ -117,8 +192,18 @@ def main():
             print("Candidate web roots:", json.dumps(roots))
             print("No files written. Run probe to prove which root serves the domain.")
             return
+        if args.mode == "browser-probe":
+            browser_probe(ftp, roots)
+            return
         base = "https://" + args.domain
-        root = probe(ftp, roots, base)
+        proof_parts = [args.verified_root, args.proof_marker, args.proof_sha256]
+        if any(proof_parts):
+            if not all(proof_parts) or args.mode != "deploy":
+                raise RuntimeError("A browser-verified deployment requires root, marker and SHA together.")
+            root = args.verified_root
+            proof_batch = verify_browser_proof(ftp, roots, root, args.proof_marker, args.proof_sha256)
+        else:
+            root = probe(ftp, roots, base)
         ftp.cwd(root)
         names = {Path(name).name for name in ftp.nlst()}
         existing = get_remote(ftp, "index.html")
@@ -159,15 +244,20 @@ def main():
             if get_remote(ftp, path.name) != content:
                 raise RuntimeError("Uploaded-file verification failed.")
             print("Verified static file:", relative.as_posix())
-        public_catalog = json.loads(public_get(base, "catalog.json"))
-        local_catalog = json.loads((dist / "catalog.json").read_text())
-        if public_catalog != local_catalog:
-            raise RuntimeError("Origin upload succeeded but public JSON is stale or mismatched. Purge hosting cache and verify.")
-        public_html = public_get(base, "index.html")
-        if digest(public_html) != digest((dist / "index.html").read_bytes()):
-            raise RuntimeError("Origin upload succeeded but public HTML differs. Check hosting transformations/cache before signoff.")
-        print("Public HTTPS HTML and JSON verified. Unrelated remote files were not deleted.")
+        try:
+            public_catalog = json.loads(public_get(base, "catalog.json"))
+            local_catalog = json.loads((dist / "catalog.json").read_text())
+            if public_catalog != local_catalog:
+                raise RuntimeError("Origin upload succeeded but public JSON is stale or mismatched. Purge hosting cache and verify.")
+            public_html = public_get(base, "index.html")
+            if digest(public_html) != digest((dist / "index.html").read_bytes()):
+                raise RuntimeError("Origin upload succeeded but public HTML differs. Check hosting transformations/cache before signoff.")
+            print("Public HTTPS HTML and JSON verified. Unrelated remote files were not deleted.")
+        except BrowserVerificationRequired:
+            print("All static files verified over certificate-checked FTPS. SiteGround requires normal-browser public HTTPS verification before final signoff.")
     finally:
+        if proof_batch:
+            cleanup_browser_probe(ftp, roots, proof_batch)
         try:
             ftp.quit()
         except Exception:

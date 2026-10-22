@@ -5,11 +5,23 @@ on:
       mode:
         description: Inspect paths, prove the document root, or deploy the static build
         type: choice
-        options: [inspect, probe, deploy]
+        options: [inspect, probe, browser-probe, deploy]
         default: inspect
         required: true
       expected_index_sha256:
         description: For deploy, exact SHA-256 from the probe; use absent if no index exists
+        type: string
+        required: false
+      verified_root:
+        description: Optional browser-verified root from a browser-probe
+        type: string
+        required: false
+      proof_marker:
+        description: Public marker filename whose contents were checked in a normal browser
+        type: string
+        required: false
+      proof_sha256:
+        description: SHA-256 of the marker contents checked in the browser
         type: string
         required: false
 permissions:
@@ -28,10 +40,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm test && npm run check && npm run build
+      - run: npm test && python3 -m unittest discover -s tests -p '*_test.py' && npm run check && npm run build
       - name: Inspect, verify or deploy without logging credentials
         env:
           FTP_CONNECTION: ${{ secrets.FTP_CONNECTION }}
           DEPLOY_MODE: ${{ inputs.mode }}
           EXPECTED_HASH: ${{ inputs.expected_index_sha256 }}
-        run: python3 scripts/ftps-deploy.py --mode "$DEPLOY_MODE" --expected-index-sha256 "$EXPECTED_HASH"
+          VERIFIED_ROOT: ${{ inputs.verified_root }}
+          PROOF_MARKER: ${{ inputs.proof_marker }}
+          PROOF_SHA256: ${{ inputs.proof_sha256 }}
+        run: python3 scripts/ftps-deploy.py --mode "$DEPLOY_MODE" --expected-index-sha256 "$EXPECTED_HASH" --verified-root "$VERIFIED_ROOT" --proof-marker "$PROOF_MARKER" --proof-sha256 "$PROOF_SHA256"

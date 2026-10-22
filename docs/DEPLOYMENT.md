@@ -27,6 +27,14 @@ The manual workflow has three modes:
 - `probe`: creates a uniquely named, harmless verification marker, checks it through the intended public HTTPS domain, then removes it. This proves the document root rather than guessing it. The current `index.html` SHA-256 is printed, or `absent`.
 - `deploy`: repeats the proof, requires the exact index hash from the probe, builds and validates the static site, stages/read-verifies each file, installs assets before the HTML entry, and verifies public HTML/JSON. It refuses dynamic `index.php` / WordPress configuration files.
 
+### When SiteGround challenges automated HTTP requests
+
+Do not disable certificate checks, bot protection, or other host security settings. The optional `browser-probe` mode stages a uniquely named, harmless text marker in each accessible candidate and logs only its path, SHA-256, current index hash and dynamic-site flag.
+
+Open the marker URL through the actual public HTTPS domain in a normal browser. Confirm its exact text and SHA-256 against the logged candidate. Only the candidate that serves that exact marker is proven. Then dispatch `deploy` with `verified_root`, `proof_marker`, `proof_sha256` and `expected_index_sha256`. These are public verification values, not secrets.
+
+The deploy action verifies the same marker again over FTPS, checks the index precondition, installs and read-verifies the static files, and removes the temporary markers from that batch. If SiteGround still challenges non-browser HTTP, the action explicitly reports that public browser verification remains required; this is not an automatic public-HTTPS success claim. Check the real homepage, JSON catalogue and interactive controls in a browser before calling the site live.
+
 Run the workflow under **Actions → Manual SiteGround FTPS deployment → Run workflow**. First `inspect`, then `probe`, review the result, then `deploy` with the expected hash. Never use this workflow for an unrelated existing website without reviewing its contents and maintaining a backup.
 
 No deploy is triggered by a push, PR or research report. The workflow does not delete unrelated remote files. It does not purchase a domain, change DNS, install TLS, or modify the host's software. DNS and valid public HTTPS need to be ready before the path proof succeeds.
