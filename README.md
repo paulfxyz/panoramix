@@ -70,7 +70,7 @@ The production site is HTML, CSS, browser JavaScript, an original illustration, 
 
 ## Upload to SiteGround
 
-1. Download the `panoramix-siteground` build artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`.
+1. Download the [ready-to-host v1.0.0 ZIP](packages/panoramix-siteground-v1.0.0.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
 2. Extract `panoramix-siteground.zip`. Upload its **contents**, not the outer folder, to the configured document root for `askpanoramix.com` using your FTP/FTPS client.
 3. Confirm that `index.html`, `catalog.json`, the illustration and the `assets/` folder are siblings. Include `.htaccess` if your FTP client hides dotfiles.
 4. Finish the domain and HTTPS setup in your hosting account. These are hosting-side operations, not requirements for a database.

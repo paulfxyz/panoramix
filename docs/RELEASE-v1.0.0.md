@@ -13,7 +13,9 @@ Find your magic mix. The first public MIT release of Panoramix's static AI-tool 
 
 ## Host it
 
-Download `panoramix-siteground.zip`, verify it with `SHA256SUMS`, extract it and upload its contents to your configured web root. No backend, database, API key or Node runtime is needed on the host. Domain, DNS and HTTPS configuration are separate operator steps.
+Download the [ready-to-host static ZIP](https://github.com/paulfxyz/panoramix/raw/refs/heads/main/packages/panoramix-siteground-v1.0.0.zip), verify it with the [SHA-256 checksum](https://github.com/paulfxyz/panoramix/blob/main/packages/SHA256SUMS), extract it and upload its contents to your configured web root. No backend, database, API key or Node runtime is needed on the host. Domain, DNS and HTTPS configuration are separate operator steps.
+
+The compiled ZIP is repository-hosted because the connected GitHub integration could not upload binary release assets. The auto-generated GitHub source archives are not the compiled hosting package.
 
 The public home is intended to be https://askpanoramix.com. This release does not itself prove that the domain has been deployed.
 
