@@ -1,5 +1,9 @@
 # Panoramix acceptance checks
 
+## v1.1.0 redesign
+
+Chromium (Playwright) at 1440×900 and 375×812: Ask flow via Enter returns ranked results (Computer, ChatGPT agent, OpenClaw, Manus, Gamut, Claude Cowork for the browse-and-run-code brief); compare view opened from results and from a recipe with Radar, Bars, Matrix and Facts rendering; drawer opened from a card and closed with Escape; family tabs, search and empty state exercised; dark theme toggled; no console errors; no horizontal overflow at either width. Screenshots in `docs/` are from this pass.
+
 ## Static architecture
 
 - No backend, database, service credentials, user authentication or external inference API.

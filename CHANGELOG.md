@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 · 22 October 2026
+
+Complete redesign.
+
+- New art direction in the spirit of calliope.agency: monochrome at rest, Space Grotesk large and bold, red only as transient interaction feedback, dark theme.
+- Panoramix redrawn as an original Gaulish druid in copperplate-engraving style, plus four companion engravings (cauldron and vials, standing stones, sickle and mistletoe, village).
+- Ask field rebuilt as a single large input; Enter submits, results scroll into view with "why" chips. The previous textarea swallowed Enter.
+- Simpler data view: large cards with a six-dimension coverage strip replace the paginated table.
+- New comparison experience: dock, then Radar / Bars / Matrix / Facts views for up to four tools; per-tool field-notes drawer with its own radar.
+- Six dimensions (Language, Media, Action, Research, Control, Workflow) derived purely from documented features.
+- Recipes open directly into the compare view; the landscape section links each family into the catalogue.
+- Motion system: button lift, halo and sweep, animated add/check toggle, focus underline, scroll reveals, drawer and compare transitions, chart animations; all reduced-motion aware.
+- Removed the cost lab and CSV export to keep the product focused. Copy-as-text remains in the compare view.
+- Catalogue schema, report standard, merge tooling and deployment workflow are unchanged.
+
 ## 1.0.1 · 22 October 2026
 
 - Corrected illustration sizing at intermediate desktop/tablet widths to prevent page-wide horizontal scrolling.

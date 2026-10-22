@@ -1,33 +1,33 @@
 <div align="center">
 
-<img src="docs/logo.svg" width="104" height="104" alt="Panoramix logo: a sage leaf inside a potion flask on a forest-green tile">
+<img src="docs/logo.svg" width="104" height="104" alt="Panoramix logo: a white druid sickle with two mistletoe berries on a black tile">
 
 # Panoramix
 
 **Find your magic mix.**
 
-<a href="https://askpanoramix.com"><img src="https://img.shields.io/badge/askpanoramix.com-the_workbench-254c38?style=for-the-badge" alt="askpanoramix.com"></a>
-<img src="https://img.shields.io/badge/version-1.0.1-263b2e?style=for-the-badge" alt="version 1.0.1">
-<img src="https://img.shields.io/badge/hosting-100%25_static-6b805b?style=for-the-badge" alt="100 percent static hosting">
-<img src="https://img.shields.io/badge/database-just_JSON-ad6849?style=for-the-badge" alt="No database server, just JSON">
-<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-254c38?style=for-the-badge" alt="MIT license"></a>
+<a href="https://askpanoramix.com"><img src="https://img.shields.io/badge/askpanoramix.com-ask_the_druid-111111?style=for-the-badge" alt="askpanoramix.com"></a>
+<img src="https://img.shields.io/badge/version-1.1.0-111111?style=for-the-badge" alt="version 1.1.0">
+<img src="https://img.shields.io/badge/hosting-100%25_static-444444?style=for-the-badge" alt="100 percent static hosting">
+<img src="https://img.shields.io/badge/database-just_JSON-bd2636?style=for-the-badge" alt="No database server, just JSON">
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" alt="MIT license"></a>
 <a href="https://github.com/paulfxyz/panoramix/actions/workflows/validate.yml"><img src="https://github.com/paulfxyz/panoramix/actions/workflows/validate.yml/badge.svg" alt="Validate and package Panoramix workflow"></a>
 
-<a href="https://askpanoramix.com"><img src="docs/site.png" width="100%" alt="Panoramix's real landing page: a forest-green and cream apothecary with an original alchemist illustration and a local brief matcher"></a>
+<a href="https://askpanoramix.com"><img src="docs/site.png" width="100%" alt="Panoramix landing page: monochrome, bold Space Grotesk headline, an original engraved Gaulish druid with sickle, mistletoe and cauldron, and a large Ask field"></a>
 
-<p>The AI landscape is a wild forest. Panoramix helps you compare the ingredients.<br>Agents, model gateways, inference, media, coding, automation and creative studios, in one open workbench.</p>
+<p>The AI landscape is a wild forest. Panoramix is the druid who knows the ingredients.<br>Agents, model gateways, inference, media, coding, automation and creative studios, compared like with like.</p>
 <p>No universal winner. No fake benchmark league. No app login, database server or paid AI call.<br>A static site you can read, copy, host and improve.</p>
 
 </div>
 
 <table>
 <tr>
-<th width="33%" align="left">BROWSE<br>The workbench</th>
+<th width="33%" align="left">ASK<br>The druid</th>
 <th width="33%" align="left">HOST<br>Your own copy</th>
 <th width="33%" align="left">CONTRIBUTE<br>A better ingredient</th>
 </tr>
 <tr valign="top">
-<td>Describe a job, start from a recipe, filter the catalogue and compare up to four tools with official-source field notes.</td>
+<td>Describe the job in one line. Get a ranked shortlist, open field notes in a side drawer, and compare up to four tools on a radar, bars, a capability matrix or facts.</td>
 <td>Download the static ZIP, extract it, and upload the contents over FTP/FTPS. SiteGround or almost any ordinary static host will do.</td>
 <td>Submit a source-backed JSON report. Maintainers review and combine community findings into periodic catalogue updates.</td>
 </tr>
@@ -40,41 +40,45 @@
 
 <p align="center"><a href="#what-you-get">Features</a> · <a href="#upload-to-siteground">SiteGround</a> · <a href="#edit-the-catalogue-without-rebuilding">Edit JSON</a> · <a href="CONTRIBUTING.md">Community reports</a> · <a href="#development">Development</a> · <a href="CHANGELOG.md">Changelog</a> · <a href="SECURITY.md">Security</a> · <a href="#why-panoramix">The name</a></p>
 
-An elegant, open-source AI comparison workbench live at [askpanoramix.com](https://askpanoramix.com), deployed as static files on SiteGround. The web root was verified against a public HTTPS marker before upload; hosting and source-code publication remain separate operations.
+A monochrome, open-source AI comparison workbench live at [askpanoramix.com](https://askpanoramix.com), deployed as static files on SiteGround. The web root was verified against a public HTTPS marker before upload; hosting and source-code publication remain separate operations.
 
 The initial catalogue covers 48 tools in 10 families: agent workspaces, model gateways, direct inference, media APIs, GPU deployment, cloud AI, first-party model APIs, coding/app builders, automation and creative studios. Computer-style agents are compared as workspaces, not confused with model APIs.
 
 ## What you get
 
-The production site is HTML, CSS, browser JavaScript, an original illustration, and one local `catalog.json` file. No Node process, SQL service, PHP, build tool, API key, paid AI call, analytics or external account is required by the deployed app. Font stylesheets come from Google Fonts; local fallbacks remain usable if that service is unavailable. Build tools are only needed when changing application code.
+The production site is HTML, CSS, browser JavaScript, five original engraved illustrations and one local `catalog.json` file. No Node process, SQL service, PHP, API key, paid AI call, analytics or external account is required by the deployed app. Space Grotesk loads from Google Fonts with a system fallback. Build tools are only needed when changing application code.
 
-- **Browse:** search, family filters, confirmed-signal filters, table/card views and pagination.
-- **Decide:** a four-tool comparison tray with sourced field notes and explicit trade-offs.
-- **Ask:** a local, rule-based brief matcher that suggests relevant ingredients without calling an LLM.
-- **Start quickly:** ten reusable comparison recipes.
-- **See the landscape:** clickable directory-count charts and a conceptual stack diagram.
-- **Model costs:** enter your own comparable quotes for tokens, media outputs, GPU hours or seats.
-- **Take notes:** copy comparison text or CSV. Session state is ephemeral; no browser storage or account sync.
+- **Ask:** one large field. Type a job, press Enter, get a ranked shortlist with "why" chips. Rule-based and local; no LLM call.
+- **Browse:** family tabs, search, and large cards with a six-dimension coverage strip on each one.
+- **Field notes:** a right-hand drawer per tool with its radar, access, billing, trade-offs, every documented capability and the official source.
+- **Compare:** pick up to four tools into the dock, then switch between **Radar**, **Bars**, **Matrix** and **Facts** views. Copy the comparison as text.
+- **Recipes:** ten ready-made four-tool comparisons that open straight into the compare view.
+- **Landscape:** the ten families as standing stones, each a shortcut into the catalogue.
+- **Dark theme:** black and white at rest; red appears only as interaction feedback.
 - **Contribute:** submit source-backed JSON reports for periodic, reviewed catalogue updates.
 
-<img src="docs/workbench.png" width="100%" alt="The actual Panoramix comparison matrix with family filters, search, documented capabilities and the four-tool shortlist controls">
+The six dimensions (Language, Media, Action, Research, Control, Workflow) are derived purely from documented features: each axis is the share of that dimension's tracked features that the official source documents. They are coverage indicators, not quality scores.
+
+<img src="docs/workbench.png" width="100%" alt="Browse by family: pill tabs for the ten families, a search field and large tool cards with coverage strips and add-to-compare buttons">
 
 <details>
-<summary>See the landscape, side-by-side comparison and mobile experience</summary>
+<summary>See the compare view, the field-notes drawer, the landscape and mobile</summary>
 
-<img src="docs/landscape.png" width="100%" alt="The landscape view shows directory counts for each family and a conceptual diagram of AI stack layers">
-<img src="docs/comparison.png" width="100%" alt="Side-by-side comparison of AI workspaces, including source links, billing context and evidence gaps">
-<img src="docs/mobile.png" width="320" alt="Panoramix's actual responsive mobile landing page">
+<img src="docs/comparison.png" width="100%" alt="Side-by-side radar comparing four agent workspaces across six documented dimensions, with a per-dimension legend">
+<img src="docs/comparison-bars.png" width="100%" alt="Bars view of the same comparison, one group per dimension">
+<img src="docs/drawer.png" width="100%" alt="Field-notes drawer for OpenRouter with its radar, facts and documented capabilities">
+<img src="docs/landscape.png" width="100%" alt="One forest, different layers: an engraved row of standing stones beside a family-count list">
+<img src="docs/mobile.png" width="320" alt="Panoramix mobile landing page">
 
 </details>
 
 ## Upload to SiteGround
 
-1. Download the [ready-to-host v1.0.1 ZIP](packages/panoramix-siteground-v1.0.1.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
+1. Download the [ready-to-host v1.1.0 ZIP](packages/panoramix-siteground-v1.1.0.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
 2. Extract `panoramix-siteground.zip`. Upload its **contents**, not the outer folder, to the configured document root for `askpanoramix.com` using your FTP/FTPS client.
-3. Confirm that `index.html`, `catalog.json`, the illustration and the `assets/` folder are siblings. Include `.htaccess` if your FTP client hides dotfiles.
+3. Confirm that `index.html`, `catalog.json`, the `art/` folder and the `assets/` folder are siblings. Include `.htaccess` if your FTP client hides dotfiles.
 4. Finish the domain and HTTPS setup in your hosting account. These are hosting-side operations, not requirements for a database.
-5. Open the HTTPS site and test search, filters, recipes, comparison, cost calculations and the source links. If host-level caching shows an older build, purge it and recheck.
+5. Open the HTTPS site and test the Ask field, family tabs, the drawer, the four compare views, recipes and the source links. If host-level caching shows an older build, purge it and recheck.
 
 The bundle uses relative asset paths, so it can also be copied into a subdirectory or another static host. No SPA rewrite is needed: navigation is in-page. The included `.htaccess` adds MIME types, cache preferences and basic headers on compatible Apache hosting; the app also works on static hosts that ignore that file.
 
@@ -137,12 +141,12 @@ An additional, strictly manual [SiteGround FTPS workflow](docs/DEPLOYMENT.md) is
 ```text
 client/
   index.html                    HTML entry, metadata and social preview
-  src/App.tsx                   Workbench, landing page and controls
-  src/data.ts                   Catalogue loader and local matcher
-  src/index.css                 Apothecary design, responsive layout and effects
+  src/App.tsx                   Landing, Ask, Browse, drawer, compare views, dock
+  src/data.ts                   Catalogue loader, six derived dimensions, local matcher
+  src/index.css                 Monochrome design system, Space Grotesk, motion
   public/catalog.json           Editable public catalogue, loaded at runtime
-  public/panoramix-mark.svg     Original potion-leaf identity
-  public/panoramix-apothecary.webp  Original alchemist illustration
+  public/panoramix-mark.svg     Original sickle-and-mistletoe mark
+  public/art/*.webp             Five original engraved illustrations
 scripts/
   catalog-lib.mjs               Record validation and conflict-safe combining
   merge-reports.mjs             Dry-run / reviewed-hash apply
@@ -163,13 +167,17 @@ Initial research snapshot: 22 October 2026. The directory is curated and not exh
 
 Family classification, use cases and caution notes are editorial. A documented signal is not an audit, certification or exhaustive feature list. Unconfirmed means unknown, not unsupported. Self-hosting does not automatically mean private or offline inference. OpenAI-style compatibility does not guarantee endpoint parity. Vision input is not image generation.
 
-The local brief matcher rewards family matches, confirmed capabilities, explicit names and task tags. It is a shortlist aid, not a language model, benchmark engine or strict constraint solver. Explicit filters are the way to require documented signals. The cost calculator only calculates rates entered by the visitor; it does not fetch prices or estimate Computer credit use.
+The local brief matcher rewards family matches, confirmed capabilities, explicit names and task tags. It is a shortlist aid, not a language model, benchmark engine or strict constraint solver. Use the capability matrix in the compare view to check specific documented signals. Panoramix does not fetch prices or estimate credit use; billing context is a pointer to the official terms.
 
 ## Why Panoramix?
 
 Panoramix (Getafix in English) is Astérix's village druid, keeper of wisdom and the magic potion recipe, as described on the [official character page](https://asterix.com/personnages/panoramix/). The analogy: AI tools are ingredients, and a thoughtful combination matters more than a mythical universal winner.
 
-This is an independent project and an affectionate nod, not an Astérix product or endorsement. The original alchemist illustration is AI-generated and is not a depiction of the comic character. Consider third-party naming and trademark rights before commercial use.
+This is an independent project and an affectionate nod, not an Astérix product or endorsement. Our druid is an original character drawn in a copperplate-engraving style: white beard, hooded robe, golden sickle, mistletoe, oak, cauldron and menhirs are Gaulish and druidic motifs from history and folklore, not the comic's character design. The illustrations are AI-generated originals. Consider third-party naming and trademark rights before commercial use.
+
+### Design
+
+The interface is monochrome at rest, in the spirit of [Calliope](https://calliope.agency): black and white, Space Grotesk set large and bold, pill buttons, 24px cards, generous spacing and hand-drawn-looking illustrations. Red appears only as a transient response to hover, focus and touch. Motion is deliberate: buttons lift with a soft halo and a light sweep, fields grow a red underline on focus, cards rise into view, the drawer slides in, radars unfold and bars grow. Everything respects `prefers-reduced-motion`.
 
 ## Open source
 

@@ -15,9 +15,7 @@ function Boot() {
   if (ready) return <App />;
   return (
     <main className="boot">
-      <a className="wordmark" href="./">
-        panoramix<span className="brand-dot">.</span>
-      </a>
+      <a className="brand" href="./">PANORAMIX</a>
       <h1>
         {error ? "The ingredients are missing." : "Opening the apothecary…"}
       </h1>
@@ -28,7 +26,7 @@ function Boot() {
       </p>
       {error && (
         <button
-          className="button dark"
+          className="btn"
           onClick={() => window.location.reload()}
         >
           Try again

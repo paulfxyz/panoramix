@@ -2,54 +2,35 @@
 
 ## Landing and navigation
 - Start: home.
-- Click The workbench, Recipes, Why Panoramix? and Find my mix.
-- Expect the appropriate section/tab or brief input; no app login.
+- Click Ask, Browse, Recipes, The druid, the theme toggle and Ask the druid.
+- Expect the section scrolls into view; theme switches and persists; no app login.
 
-## Local brief matching
-- Type a gateway/routing brief and Find my mix.
-- Expect relevant family/capability chips and gateway-first suggestions.
-- Type an unfamiliar brief.
-- Expect a clear unsupported-intent note, not a fabricated AI answer.
+## Ask (brief matcher)
+- Type "I need a Computer alternative that can browse and run code" and press Enter.
+- Expect a "Start with these." results section with six ranked cards and "why" chips; Computer first.
+- Click a suggestion chip; expect the field fills and results update.
+- Type gibberish; expect "The druid frowns." with guidance, not fabricated results.
+- Click "Compare the top 4"; expect the compare view opens with four tools.
 
-## Browse the matrix
-- Search Runware, clear search, select a family, require Self-host option, reset.
-- Sort A–Z, move to next page and back, switch table/card and back.
-- Expect matching records, literal pressed states and preserved selections.
-- Search an unknown product; expect a recoverable empty state.
+## Browse
+- Click a family tab; expect the grid filters and a family description appears.
+- Search "video"; expect only matching tools. Search nonsense; expect the empty state with Reset.
+- Click a card's + ; expect it turns into a check, the card gets a border, the dock rises.
+- Try a fifth tool; expect the dock note "Four is the limit".
 
-## Shortlist and compare
-- Add Computer, OpenRouter, Runware and Manus. Try a fifth item.
-- Expect four-tool limit notice, shortlist-only filter and side-by-side evidence.
-- Remove one, copy comparison text, close with Escape, clear tray.
+## Field notes drawer
+- Click a tool title or "Field notes"; expect a right drawer with radar, facts, capabilities and source link.
+- Escape or scrim closes it. Add/remove from comparison from inside the drawer.
 
-## Field notes and sources
-- Open a product note and follow a source.
-- Expect public official destination in a new tab and complete qualifier text.
-- Open methodology, close, and export CSV with manual-copy fallback.
+## Compare
+- Dock → Compare opens the compare view. Radar shows up to four series; legend removes tools.
+- Bars, Matrix and Facts tabs switch views. Copy text writes to the clipboard. Escape closes.
 
 ## Recipes and landscape
-- Use a recipe, then its compare-template control.
-- Expect the intended query/family and four named tools.
-- Open landscape and click a family bar.
-- Expect that family in the comparison matrix.
+- Open comparison on a recipe; expect the compare view with that recipe's four tools.
+- Click a family row in the landscape; expect Browse filtered to that family.
 
-## Cost scenarios
-- Text defaults with input 1 and output 2 USD/million: expect USD20/month.
-- 1000 media outputs at USD0.05: expect USD50/month.
-- 20 GPU hours at USD2/hour: expect USD40/month.
-- 3 seats at USD10/month: expect USD30/month.
-- Include fee and fixed-cost inputs; ensure switching modes clears incompatible rates.
-
-## Responsive and delivery checks
-- Desktop 1440px, intermediate widths 1028px / 900px / 800px, mobile 375px, then desktop; retain usable controls.
-- No page-level horizontal overflow; tables may intentionally scroll.
-- Mobile cold-open defaults to cards.
-- Reduced motion disables decorative movement.
-- Missing/invalid catalogue shows a meaningful retry screen.
-- Production static build loads from a subdirectory and from the deployed preview.
-
-## Final-polish acceptance
-- Small secondary labels, counts, recipes, chart notes, pricing inputs and evidence remain readable.
-- Original logo and real screenshots appear in README and app.
-- GitHub workflow passes, static ZIP includes JSON, assets, schema and MIT notices, no server or secrets.
-- Before any production update, verify the FTP path and current-index precondition, then confirm the public domain after upload.
+## Responsive and delivery
+- 1440px and 375px; no page-level horizontal overflow; nav collapses on mobile; header CTA shortens to "Ask".
+- Dark theme inverts illustrations; reduced motion disables animation.
+- Production static build loads from the deployed root with relative paths.
