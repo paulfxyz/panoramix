@@ -1,25 +1,16 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Check,
-  Moon,
-  Plus,
-  Scale,
-  Search,
-  Sun,
-  X,
-} from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { ArrowRight, ArrowUpRight, Check, Moon, Plus, Scale, Sun, X } from "lucide-react";
+import { AlternativesLens, ChecklistLens, MapLens, MatrixLens, Radar, RADAR_COLORS, RadarGallery, RiversLens, StackLens, lensMeta, type Lens, type LensKind } from "./lenses";
+import { groupLabels, questions, type Question, type QuestionGroup } from "./questions";
 import {
   dimensions,
   familyOf,
   families,
   featureLabels,
   has,
-  matchScore,
   metadata,
-  parseBrief,
   profile,
+  record,
   recipes,
   toolOf,
   tools,
@@ -99,77 +90,20 @@ function Glyph({ size = 30 }: { size?: number }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Radar chart                                                         */
-/* ------------------------------------------------------------------ */
-
-const RADAR_COLORS = ["var(--fg)", "var(--red)", "var(--muted)", "var(--fg-soft)"];
-
-function Radar({
-  series,
-  size = 300,
-  labels = true,
-  animate = true,
-}: {
-  series: { name: string; values: number[] }[];
-  size?: number;
-  labels?: boolean;
-  animate?: boolean;
-}) {
-  const n = dimensions.length;
-  const cx = size / 2,
-    cy = size / 2,
-    r = size * (labels ? 0.34 : 0.44);
-  const pt = (i: number, v: number) => {
-    const a = (Math.PI * 2 * i) / n - Math.PI / 2;
-    return [cx + Math.cos(a) * r * v, cy + Math.sin(a) * r * v];
-  };
-  const ring = (v: number) =>
-    Array.from({ length: n }, (_, i) => pt(i, v).join(",")).join(" ");
-  return (
-    <svg className={`radar ${animate ? "radar-animate" : ""}`} viewBox={`0 0 ${size} ${size}`} role="img" aria-label="Capability radar">
-      {[1 / 3, 2 / 3, 1].map((v) => (
-        <polygon key={v} className="radar-ring" points={ring(v)} />
-      ))}
-      {Array.from({ length: n }, (_, i) => {
-        const [x, y] = pt(i, 1);
-        return <line key={i} className="radar-axis" x1={cx} y1={cy} x2={x} y2={y} />;
-      })}
-      {series.map((s, si) => (
-        <g key={s.name} className={`series-${si}`} style={{ color: RADAR_COLORS[si % RADAR_COLORS.length], ["--i" as string]: si }}>
-          <polygon className="radar-shape" points={s.values.map((v, i) => pt(i, Math.max(v, 0.04)).join(",")).join(" ")} />
-          {s.values.map((v, i) => {
-            const [x, y] = pt(i, Math.max(v, 0.04));
-            return <circle key={i} className="radar-dot" cx={x} cy={y} r={3.5} />;
-          })}
-        </g>
-      ))}
-      {labels &&
-        dimensions.map((d, i) => {
-          const [x, y] = pt(i, 1.26);
-          return (
-            <text key={d.id} className="radar-label" x={x} y={y} textAnchor={Math.abs(x - cx) < 4 ? "middle" : x > cx ? "start" : "end"} dominantBaseline="middle">
-              {d.short}
-            </text>
-          );
-        })}
-    </svg>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* Capability dots                                                     */
 /* ------------------------------------------------------------------ */
 
-function Dots({ t, compact = false }: { t: Tool; compact?: boolean }) {
+const ABBR: Record<string, string> = { language: "Lang", media: "Media", action: "Act", research: "Rsch", control: "Ctrl", workflow: "Flow" };
+function Dots({ t }: { t: Tool }) {
   const p = profile(t);
   return (
-    <ul className={`dots ${compact ? "dots-compact" : ""}`} aria-label="Documented capability coverage by dimension">
+    <ul className="dots" aria-label="Documented capability coverage by dimension">
       {dimensions.map((d, i) => (
-        <li key={d.id} title={`${d.label}: ${Math.round(p[i] * 100)}% of documented features`}>
+        <li key={d.id} title={`${d.label}: ${Math.round(p[i] * 100)}% of tracked features documented`}>
           <span className="dot-bar">
             <span style={{ ["--v" as string]: p[i] }} />
           </span>
-          {!compact && <span className="dot-label">{d.short}</span>}
+          <span className="dot-label">{ABBR[d.id]}</span>
         </li>
       ))}
     </ul>
@@ -185,14 +119,12 @@ function ToolCard({
   selected,
   onToggle,
   onOpen,
-  why,
   index,
 }: {
   t: Tool;
   selected: boolean;
   onToggle: () => void;
   onOpen: () => void;
-  why?: string[];
   index: number;
 }) {
   return (
@@ -218,14 +150,8 @@ function ToolCard({
         </button>
       </h3>
       <p className="card-desc">{t.description}</p>
-      {why && why.length > 0 && (
-        <ul className="why">
-          {why.map((w) => (
-            <li key={w}>{w}</li>
-          ))}
-        </ul>
-      )}
-      <Dots t={t} compact />
+      <p className="card-count"><strong>{t.features.length}</strong> documented capabilities</p>
+      <Dots t={t} />
       <footer className="card-foot">
         <span className="meta">{t.access}</span>
         <button type="button" className="text-link" onClick={onOpen}>
@@ -361,6 +287,30 @@ function CompareView({
       .join("\n")}\n\nEditorial comparison from documented sources, not a benchmark. Snapshot ${metadata.updated}.`;
     navigator.clipboard?.writeText(text).catch(() => {});
   };
+  const verdict = useMemo(() => {
+    if (list.length < 2) return [] as string[];
+    const out: string[] = [];
+    const sorted = [...list].sort((a, b) => b.features.length - a.features.length);
+    if (sorted[0].features.length > sorted[1].features.length) out.push(`${sorted[0].name} documents the most capabilities (${sorted[0].features.length}).`);
+    else out.push(`${sorted[0].name} and ${sorted[1].name} tie on documented capabilities (${sorted[0].features.length}).`);
+    const caps = Object.keys(featureLabels);
+    const shared = caps.filter((c) => list.every((t) => has(t, c)));
+    if (shared.length) out.push(`All ${list.length} document ${shared.map((c) => featureLabels[c]).join(", ")}.`);
+    for (const c of caps) {
+      const who = list.filter((t) => has(t, c));
+      if (who.length === 1) out.push(`Only ${who[0].name} documents ${featureLabels[c]}.`);
+    }
+    const fams = new Set(list.map((t) => t.family));
+    if (fams.size > 1) out.push(`You are comparing across ${fams.size} families (${[...fams].map((f) => familyOf(f).short).join(", ")}): think of this as a stack, not a contest.`);
+    return out.slice(0, 5);
+  }, [list]);
+  const rows = useMemo(() => {
+    const caps = Object.keys(featureLabels);
+    const differ = caps.filter((c) => { const n = list.filter((t) => has(t, c)).length; return n > 0 && n < list.length; });
+    const all = caps.filter((c) => list.every((t) => has(t, c)));
+    const none = caps.filter((c) => !list.some((t) => has(t, c)));
+    return { differ, all, none };
+  }, [list]);
   if (!list.length) return null;
   return (
     <div className="compare-root is-open" role="dialog" aria-modal="true" aria-label="Side-by-side comparison">
@@ -402,6 +352,14 @@ function CompareView({
           ))}
         </ul>
 
+        {verdict.length > 0 && (
+          <ul className="verdict">
+            {verdict.map((v, i) => (
+              <li key={v} style={{ ["--d" as string]: `${i * 70}ms` }}>{v}</li>
+            ))}
+          </ul>
+        )}
+
         {view === "radar" && (
           <div className="compare-radar">
             <Radar series={list.map((t) => ({ name: t.name, values: profile(t) }))} size={420} />
@@ -442,27 +400,35 @@ function CompareView({
 
         {view === "matrix" && (
           <div className="matrix-wrap">
+            <p className="how">Differences first. A filled circle is documented by the official source; a dash means not established.</p>
             <table className="matrix">
               <thead>
                 <tr>
                   <th scope="col">Capability</th>
                   {list.map((t) => (
-                    <th key={t.id} scope="col">
-                      {t.name}
-                    </th>
+                    <th key={t.id} scope="col">{t.name}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(featureLabels).map((f) => (
-                  <tr key={f}>
-                    <th scope="row">{featureLabels[f]}</th>
-                    {list.map((t) => (
-                      <td key={t.id} className={has(t, f) ? "on" : "off"}>
-                        <span className="cell-mark">{has(t, f) ? <Check size={18} /> : <span className="dash" />}</span>
-                      </td>
+                {[
+                  { label: `Where they differ (${rows.differ.length})`, caps: rows.differ },
+                  { label: `Shared by all (${rows.all.length})`, caps: rows.all },
+                  { label: `None document (${rows.none.length})`, caps: rows.none },
+                ].filter((g) => g.caps.length).map((g) => (
+                  <React.Fragment key={g.label}>
+                    <tr className="group-row"><th scope="rowgroup" colSpan={list.length + 1}>{g.label}</th></tr>
+                    {g.caps.map((f) => (
+                      <tr key={f}>
+                        <th scope="row">{featureLabels[f]}</th>
+                        {list.map((t) => (
+                          <td key={t.id} className={has(t, f) ? "on" : "off"}>
+                            <span className="cell-mark">{has(t, f) ? <Check size={18} /> : <span className="dash" />}</span>
+                          </td>
+                        ))}
+                      </tr>
                     ))}
-                  </tr>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
@@ -498,20 +464,38 @@ function CompareView({
 }
 
 /* ------------------------------------------------------------------ */
+/* Lens icons                                                          */
+/* ------------------------------------------------------------------ */
+
+function LensIcon({ kind }: { kind: LensKind }) {
+  const c = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  return (
+    <svg className="lens-icon" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" {...c}>
+      {kind === "radars" && (<><polygon points="14,4 23,9 23,19 14,24 5,19 5,9" /><polygon points="14,9 19,12 18,18 14,20 9,17 10,11" fill="currentColor" fillOpacity=".15" /></>)}
+      {kind === "matrix" && (<><rect x="4" y="4" width="20" height="20" rx="3" /><path d="M4 11h20M4 17h20M11 4v20M17 4v20" /></>)}
+      {kind === "map" && (<><path d="M4 22L24 6" strokeDasharray="2 3" /><circle cx="8" cy="18" r="2.2" fill="currentColor" /><circle cx="14" cy="10" r="2.2" fill="currentColor" /><circle cx="21" cy="14" r="2.2" fill="currentColor" /><circle cx="19" cy="6" r="1.4" fill="currentColor" /></>)}
+      {kind === "rivers" && (<><path d="M4 7c8 0 8 7 16 7M4 14c8 0 8-7 16-7M4 21c8 0 8-7 16-7M4 14c8 0 8 7 16 7" /></>)}
+      {kind === "alternatives" && (<><rect x="4" y="5" width="7" height="18" rx="2" fill="currentColor" fillOpacity=".15" /><path d="M15 8h9M15 14h9M15 20h9" /></>)}
+      {kind === "checklist" && (<><path d="M5 8l2 2 4-4M5 15l2 2 4-4M5 22l2 2 4-4" /><path d="M14 7h10M14 14h10M14 21h10" /></>)}
+      {kind === "stack" && (<><path d="M14 4l10 5-10 5L4 9z" fill="currentColor" fillOpacity=".15" /><path d="M4 14l10 5 10-5M4 19l10 5 10-5" /></>)}
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* App                                                                 */
 /* ------------------------------------------------------------------ */
 
 export default function App() {
   const [dark, setDark] = useState(() => localStorage.getItem("px-theme") === "dark");
-  const [query, setQuery] = useState("");
-  const [brief, setBrief] = useState("");
+  const [lens, setLens] = useState<Lens | null>(null);
+  const [question, setQuestion] = useState<Question | null>(null);
+  const [group, setGroup] = useState<QuestionGroup | "all">("all");
   const [family, setFamily] = useState<Family | "all">("all");
-  const [search, setSearch] = useState("");
   const [picked, setPicked] = useState<string[]>([]);
   const [open, setOpen] = useState<Tool | null>(null);
   const [comparing, setComparing] = useState(false);
   const [limitNote, setLimitNote] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     document.body.classList.toggle("dark", dark);
@@ -519,24 +503,7 @@ export default function App() {
   }, [dark]);
   useReveal();
 
-  const parsed = useMemo(() => parseBrief(brief), [brief]);
-  const matches = useMemo(() => {
-    if (!brief) return [];
-    return tools
-      .map((t) => ({ t, ...matchScore(t, parsed) }))
-      .filter((m) => m.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 6);
-  }, [brief, parsed]);
-
-  const browse = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return tools.filter(
-      (t) =>
-        (family === "all" || t.family === family) &&
-        (!q || t.name.toLowerCase().includes(q) || t.description.toLowerCase().includes(q) || t.tags.some((x) => x.includes(q)) || t.features.some((f) => featureLabels[f].toLowerCase().includes(q))),
-    );
-  }, [family, search]);
+  const browse = useMemo(() => tools.filter((t) => family === "all" || t.family === family), [family]);
 
   const toggle = (id: string) => {
     setPicked((p) => {
@@ -550,16 +517,37 @@ export default function App() {
     });
   };
 
-  const runBrief = (text = query) => {
-    const v = text.trim();
-    setBrief(v);
-    if (v) setTimeout(() => scrollTo("results"), 60);
+  const ask = (q: Question) => {
+    setQuestion(q);
+    if (q.compare) {
+      setPicked(q.compare.slice(0, MAX_COMPARE));
+      setComparing(true);
+      return;
+    }
+    if (q.lens) {
+      setLens(q.lens);
+      setTimeout(() => scrollTo("lens"), 60);
+    }
   };
-
+  const openLens = (kind: LensKind) => {
+    setQuestion(null);
+    setLens((l) => (l?.kind === kind ? l : { kind }));
+    setTimeout(() => scrollTo("lens"), 60);
+  };
   const useRecipe = (r: Recipe) => {
     setPicked(r.ids.slice(0, MAX_COMPARE));
     setComparing(true);
   };
+  const acts = {
+    picked,
+    toggle,
+    open: (t: Tool) => setOpen(t),
+    compare: (ids: string[]) => {
+      setPicked(ids.slice(0, MAX_COMPARE));
+      setComparing(true);
+    },
+  };
+  const visibleQuestions = questions.filter((q) => group === "all" || q.group === group);
 
   const total = useCountUp(tools.length);
   const famCount = useCountUp(families.length);
@@ -576,17 +564,18 @@ export default function App() {
             <span>PANORAMIX</span>
           </a>
           <nav className="nav" aria-label="Main">
-            <button type="button" onClick={() => scrollTo("ask")}>Ask</button>
+            <button type="button" onClick={() => scrollTo("ask")}>Checks</button>
             <button type="button" onClick={() => scrollTo("browse")}>Browse</button>
             <button type="button" onClick={() => scrollTo("recipes")}>Recipes</button>
+            <button type="button" onClick={() => scrollTo("record")}>The record</button>
             <button type="button" onClick={() => scrollTo("story")}>The druid</button>
           </nav>
           <div className="head-tools">
             <button type="button" className="theme" aria-label={dark ? "Switch to light theme" : "Switch to dark theme"} aria-pressed={dark} onClick={() => setDark((d) => !d)}>
               <span className="theme-knob">{dark ? <Moon size={14} /> : <Sun size={14} />}</span>
             </button>
-            <button type="button" className="btn btn-sm" onClick={() => { scrollTo("ask"); setTimeout(() => inputRef.current?.focus(), 500); }}>
-              <span className="hide-m">Ask the druid</span><span className="only-m">Ask</span> <ArrowRight size={16} />
+            <button type="button" className="btn btn-sm" onClick={() => scrollTo("ask")}>
+              <span className="hide-m">Open the record</span><span className="only-m">Record</span> <ArrowRight size={16} />
             </button>
           </div>
         </div>
@@ -596,17 +585,17 @@ export default function App() {
         {/* HERO */}
         <section className="hero wrap">
           <div className="hero-copy" data-reveal>
-            <span className="eyebrow">AI tools. Compared like ingredients.</span>
+            <span className="eyebrow">The open record of what AI tools document</span>
             <h1>
               <span>Find your</span>
               <span className="soft">magic mix.</span>
             </h1>
             <p className="lead">
-              Agents, model gateways, inference, media APIs, coding tools, automation and creative studios. One open catalogue, documented from official sources, compared the way a druid compares herbs.
+              {tools.length} AI tools in {families.length} families, recorded from official sources in one signed catalogue on GitHub. Panoramix only renders the record: {questions.length} common checks, seven lenses, no account, no AI call.
             </p>
             <div className="hero-cta">
-              <button type="button" className="btn btn-lg" onClick={() => { scrollTo("ask"); setTimeout(() => inputRef.current?.focus(), 500); }}>
-                Ask Panoramix <ArrowRight size={20} />
+              <button type="button" className="btn btn-lg" onClick={() => scrollTo("ask")}>
+                Open the record <ArrowRight size={20} />
               </button>
               <button type="button" className="text-link lg" onClick={() => scrollTo("browse")}>
                 Browse {tools.length} tools <ArrowRight size={18} />
@@ -615,7 +604,8 @@ export default function App() {
             <ul className="hero-proof">
               <li><strong>{total}</strong> tools</li>
               <li><strong>{famCount}</strong> families</li>
-              <li><strong>0</strong> logins</li>
+              <li><strong>{questions.length}</strong> checks</li>
+              <li className={`proof-int ${record.intact === false ? "is-bad" : ""}`}><strong>{record.intact === null ? "—" : record.intact ? "✓" : "!"}</strong> {record.intact === false ? "record altered" : "record intact"}</li>
             </ul>
           </div>
           <figure className="hero-art" data-reveal>
@@ -623,87 +613,66 @@ export default function App() {
           </figure>
         </section>
 
-        {/* ASK */}
+        {/* QUESTIONS + LENSES */}
         <section className="ask wrap" id="ask">
           <div className="ask-inner" data-reveal>
-            <span className="eyebrow">Describe the job, not the product</span>
-            <h2>What are you brewing?</h2>
-            <form
-              className="ask-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                runBrief();
-              }}
-            >
-              <label htmlFor="ask-input" className="sr-only">Describe your AI workload</label>
-              <div className={`field ${query ? "has-value" : ""}`}>
-                <Search size={22} className="field-icon" />
-                <input
-                  id="ask-input"
-                  ref={inputRef}
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="An alternative to Computer for research… an API for image and video… a cheap, fast text model…"
-                  autoComplete="off"
-                  maxLength={300}
-                  enterKeyHint="search"
-                />
-                {query && (
-                  <button type="button" className="field-clear" aria-label="Clear" onClick={() => { setQuery(""); setBrief(""); inputRef.current?.focus(); }}>
-                    <X size={18} />
-                  </button>
-                )}
-                <span className="field-line" />
+            <header className="section-head tight">
+              <div>
+                <span className="eyebrow">Common checks</span>
+                <h2>What people look up.</h2>
               </div>
-              <button type="submit" className="btn btn-lg" disabled={!query.trim()}>
-                Find my mix <ArrowRight size={20} />
-              </button>
-            </form>
-            <div className="suggest">
-              <span>Try:</span>
-              {[
-                "I need a Computer alternative that can browse and run code",
-                "one API with many models and fallback",
-                "generate images and video from my app",
-                "self-hosted, privacy first",
-              ].map((s) => (
-                <button key={s} type="button" className="chip" onClick={() => { setQuery(s); runBrief(s); }}>
-                  {s}
+              <p className="section-note">The {questions.length} checks run most often against the record. Each is a fixed, reproducible view of the catalogue: same record, same answer, for everyone.</p>
+            </header>
+            <div className="tabs groups" role="tablist" aria-label="Question groups">
+              <button role="tab" aria-selected={group === "all"} className={`chip ${group === "all" ? "is-on" : ""}`} onClick={() => setGroup("all")}>All <small>{questions.length}</small></button>
+              {(Object.keys(groupLabels) as QuestionGroup[]).map((g) => (
+                <button key={g} role="tab" aria-selected={group === g} className={`chip ${group === g ? "is-on" : ""}`} onClick={() => setGroup(g)}>
+                  {groupLabels[g]} <small>{questions.filter((q) => q.group === g).length}</small>
+                </button>
+              ))}
+            </div>
+            <ul className="cloud" key={group}>
+              {visibleQuestions.map((q, i) => (
+                <li key={q.id} style={{ ["--d" as string]: `${Math.min(i, 24) * 25}ms` }}>
+                  <button type="button" className={`q ${question?.id === q.id ? "is-on" : ""} ${q.compare ? "q-compare" : ""}`} onClick={() => ask(q)}>
+                    <span>{q.text}</span>
+                    <small>{q.compare ? "Side by side" : lensMeta[q.lens!.kind].title}</small>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <div className="lenses">
+              <span className="tabs-label">Or start from a lens:</span>
+              {(Object.keys(lensMeta) as LensKind[]).map((k) => (
+                <button key={k} type="button" className={`lens-btn ${lens?.kind === k ? "is-on" : ""}`} aria-pressed={lens?.kind === k} onClick={() => openLens(k)}>
+                  <LensIcon kind={k} />
+                  <span>{lensMeta[k].title}</span>
                 </button>
               ))}
             </div>
           </div>
         </section>
 
-        {/* RESULTS */}
-        {brief && (
-          <section className="results wrap" id="results">
+        {/* LENS PANEL */}
+        {lens && (
+          <section className="lens wrap" id="lens" key={lens.kind}>
             <header className="section-head">
               <div>
-                <span className="eyebrow">Panoramix suggests</span>
-                <h2>{matches.length ? "Start with these." : "The druid frowns."}</h2>
+                <span className="eyebrow">{question ? "Check" : "Lens"}</span>
+                <h2>{question ? question.text : lensMeta[lens.kind].title}</h2>
               </div>
-              <p className="section-note">
-                {matches.length
-                  ? `Matched on ${[...parsed.families.map((f) => familyOf(f).name), ...parsed.features.map((f) => featureLabels[f])].slice(0, 5).join(", ") || "your wording"}. Rule-based, local, no AI call.`
-                  : "No documented signal matched. Try naming a job (research, images, routing, self-host) or pick a recipe below."}
-              </p>
+              <div className="lens-head-right">
+                <p className="section-note">{question ? question.read : lensMeta[lens.kind].blurb}</p>
+                <button type="button" className="icon-btn" aria-label="Close lens" onClick={() => { setLens(null); setQuestion(null); scrollTo("ask"); }}><X size={22} /></button>
+              </div>
             </header>
-            {matches.length > 0 && (
-              <>
-                <div className="grid">
-                  {matches.map((m, i) => (
-                    <ToolCard key={m.t.id} t={m.t} index={i} selected={picked.includes(m.t.id)} onToggle={() => toggle(m.t.id)} onOpen={() => setOpen(m.t)} why={m.why} />
-                  ))}
-                </div>
-                <div className="results-actions">
-                  <button type="button" className="btn" onClick={() => { setPicked(matches.slice(0, MAX_COMPARE).map((m) => m.t.id)); setComparing(true); }}>
-                    Compare the top {Math.min(MAX_COMPARE, matches.length)} <Scale size={18} />
-                  </button>
-                </div>
-              </>
-            )}
+            {lens.kind === "radars" && <RadarGallery lens={lens} setLens={setLens} acts={acts} />}
+            {lens.kind === "matrix" && <MatrixLens lens={lens} setLens={setLens} acts={acts} />}
+            {lens.kind === "map" && <MapLens lens={lens} setLens={setLens} acts={acts} />}
+            {lens.kind === "rivers" && <RiversLens onFamily={(f) => { setFamily(f); scrollTo("browse"); }} />}
+            {lens.kind === "alternatives" && <AlternativesLens lens={lens} setLens={setLens} acts={acts} />}
+            {lens.kind === "checklist" && <ChecklistLens lens={lens} setLens={setLens} acts={acts} />}
+            {lens.kind === "stack" && <StackLens acts={acts} />}
           </section>
         )}
 
@@ -715,7 +684,7 @@ export default function App() {
                 <span className="eyebrow">The whole forest</span>
                 <h2>Browse by family.</h2>
               </div>
-              <p className="section-note">Compare like with like. Each product sits in one primary family; pick up to four for a side-by-side.</p>
+              <p className="section-note">Every tool, one family each. The strip on each card shows documented coverage in six dimensions; + adds it to your comparison.</p>
             </header>
             <div className="browse-bar" data-reveal>
               <div className="tabs" role="tablist" aria-label="Families">
@@ -728,26 +697,13 @@ export default function App() {
                   </button>
                 ))}
               </div>
-              <div className="field field-sm">
-                <Search size={18} className="field-icon" />
-                <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search names, tags, capabilities" aria-label="Search the catalogue" />
-                <span className="field-line" />
-              </div>
             </div>
             {family !== "all" && <p className="family-desc" data-reveal>{familyOf(family).description}</p>}
-            {browse.length ? (
-              <div className="grid" key={`${family}-${search}`}>
-                {browse.map((t, i) => (
-                  <ToolCard key={t.id} t={t} index={i} selected={picked.includes(t.id)} onToggle={() => toggle(t.id)} onOpen={() => setOpen(t)} />
-                ))}
-              </div>
-            ) : (
-              <div className="empty" data-reveal>
-                <h3>Nothing in this cauldron.</h3>
-                <p>No tool matches “{search}”. Try a capability like “video” or a tag like “privacy”.</p>
-                <button type="button" className="btn btn-ghost" onClick={() => { setSearch(""); setFamily("all"); }}>Reset</button>
-              </div>
-            )}
+            <div className="grid" key={family}>
+              {browse.map((t, i) => (
+                <ToolCard key={t.id} t={t} index={i} selected={picked.includes(t.id)} onToggle={() => toggle(t.id)} onOpen={() => setOpen(t)} />
+              ))}
+            </div>
           </div>
         </section>
 
@@ -767,7 +723,7 @@ export default function App() {
                   const max = Math.max(...families.map((g) => tools.filter((t) => t.family === g.id).length));
                   return (
                     <li key={f.id}>
-                      <button type="button" onClick={() => { setFamily(f.id); setSearch(""); scrollTo("browse"); }}>
+                      <button type="button" onClick={() => { setFamily(f.id); scrollTo("browse"); }}>
                         <span className="stone-name">{f.name}</span>
                         <span className="stone-track"><span className="stone-fill" style={{ ["--w" as string]: `${(n / max) * 100}%` }} /></span>
                         <span className="stone-n">{n}</span>
@@ -809,6 +765,48 @@ export default function App() {
           </div>
         </section>
 
+        {/* RECORD */}
+        <section className="record" id="record">
+          <div className="wrap record-grid">
+            <div className="record-copy" data-reveal>
+              <span className="eyebrow">The record</span>
+              <h2>GitHub is the source of truth. This page is a window.</h2>
+              <p className="lead">One JSON file holds everything you see. It lives in a public repository, changes only through reviewed, GitHub-signed merges, and this page checks on load that the copy it rendered is byte-for-byte the one it was built from.</p>
+              <ol className="record-steps">
+                <li><span><strong>Report.</strong> Anyone files a source-backed JSON report: one field, one official URL, one date.</span></li>
+                <li><span><strong>Review.</strong> A maintainer dry-runs the merge. Conflicts and stale values stop it; agreeing reports combine their evidence.</span></li>
+                <li><span><strong>Sign.</strong> The merge workflow writes the catalogue through GitHub's API, so the commit carries GitHub's verified signature.</span></li>
+                <li><span><strong>Render.</strong> A static rebuild ships the new record with its hash and commit stamped into the page.</span></li>
+              </ol>
+              <div className="record-actions">
+                <a className="btn" href={`${record.repo}/blob/main/client/public/catalog.json`} target="_blank" rel="noopener noreferrer">Read the record on GitHub <ArrowUpRight size={18} /></a>
+                <a className="btn btn-ghost" href={`${record.repo}/commits/main/client/public/catalog.json`} target="_blank" rel="noopener noreferrer">Change history <ArrowUpRight size={18} /></a>
+              </div>
+            </div>
+            <aside className="seal" data-reveal>
+              <div className={`seal-ring ${record.intact === false ? "is-bad" : record.intact ? "is-ok" : ""}`}>
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <circle className="seal-track" cx="60" cy="60" r="54" />
+                  <circle className="seal-arc" cx="60" cy="60" r="54" />
+                </svg>
+                <div className="seal-face">
+                  <Glyph size={34} />
+                  <strong>{record.intact === null ? "Unverified" : record.intact ? "Intact" : "Altered"}</strong>
+                </div>
+              </div>
+              <dl className="seal-facts">
+                <div><dt>Catalogue snapshot</dt><dd>{metadata.updated}</dd></div>
+                <div><dt>Rendering commit</dt><dd><a href={`${record.repo}/commit/${record.commit}`} target="_blank" rel="noopener noreferrer"><code>{record.commit}</code></a></dd></div>
+                <div><dt>Built</dt><dd>{record.buildDate}</dd></div>
+                <div><dt>Record SHA-256</dt><dd><code className="hash" title={record.expectedSha}>{record.expectedSha.slice(0, 16)}…{record.expectedSha.slice(-8)}</code></dd></div>
+                <div><dt>Served copy</dt><dd>{record.intact === null ? "Hash unavailable in this browser" : record.intact ? "Matches the build" : <>Differs: <code className="hash">{record.actualSha.slice(0, 16)}…</code></>}</dd></div>
+                <div><dt>Licence</dt><dd>MIT · original data and code</dd></div>
+              </dl>
+              <a className="text-link" href="./catalog.json" download>Download catalog.json <ArrowRight size={16} /></a>
+            </aside>
+          </div>
+        </section>
+
         {/* STORY */}
         <section className="story" id="story">
           <div className="wrap story-grid">
@@ -819,11 +817,12 @@ export default function App() {
                 In French comics lore, Panoramix is the village druid who knows the one recipe everyone wants: which ingredients, in which order, and why. He never sells the potion. He understands it.
               </p>
               <p>
-                This Panoramix is our own character and an homage, not a licensed one. He does the same job for AI tooling: reads the official sources, sorts the forest into families, and tells you plainly what each ingredient is documented to do. No rankings, no sponsors, no login. Just the recipe book, open.
+                This Panoramix is our own character and an homage, not a licensed one. He does the same job for AI tooling: keeps the record of what each ingredient is documented to do, sorts the forest into families, and shows it plainly. No rankings, no sponsors, no login, nothing to type. Just the recipe book, open and signed.
               </p>
               <ul className="story-rules">
                 <li><strong>Documented, not claimed.</strong> Every capability links to an official page.</li>
                 <li><strong>Like with like.</strong> A gateway is not an agent; we compare inside families first.</li>
+                <li><strong>Signed and checkable.</strong> GitHub-verified merges, a hash on the page, the file one click away.</li>
                 <li><strong>Open and forkable.</strong> MIT licence, one JSON file, static hosting.</li>
               </ul>
               <a className="btn btn-ghost" href="https://github.com/paulfxyz/panoramix" target="_blank" rel="noopener noreferrer">
@@ -842,7 +841,7 @@ export default function App() {
 
       <footer className="foot wrap">
         <a className="brand" href="#top"><Glyph size={24} /><span>PANORAMIX</span></a>
-        <p>Open source under MIT. Catalogue snapshot {metadata.updated}. Editorial comparison from documented sources, not a benchmark. Verify prices and terms before choosing.</p>
+        <p>Open source under MIT. Record snapshot {metadata.updated}, rendered from commit <code>{record.commit}</code>. Editorial comparison from documented sources, not a benchmark. Verify prices and terms before choosing. "ask" in the domain is just the domain.</p>
         <nav aria-label="Footer">
           <a href="https://github.com/paulfxyz/panoramix" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://github.com/paulfxyz/panoramix/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribute a report</a>

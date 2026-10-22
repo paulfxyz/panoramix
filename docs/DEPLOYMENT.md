@@ -46,3 +46,13 @@ Run the workflow under **Actions → Manual SiteGround FTPS deployment → Run w
 No deploy is triggered by a push, PR or research report. The workflow does not delete unrelated remote files. It does not purchase a domain, change DNS, install TLS, or modify the host's software. DNS and valid public HTTPS need to be ready before the path proof succeeds.
 
 The generated ZIP does not contain FTP credentials or this deployment script. Delete the temporary FTP account or remove the GitHub secret when you no longer want deployment access.
+
+
+## Record changes vs. code changes
+
+Two separate paths touch the repository:
+
+- **Record** (`client/public/catalog.json`, `reports/merged/*`): only through `.github/workflows/signed-merge.yml`, which commits via the GitHub Contents API with the workflow token. These commits carry GitHub's verified signature.
+- **Code and docs**: ordinary commits and pull requests.
+
+A deploy after a record change must be a fresh build, since the record hash and rendering commit are embedded at build time and the live page compares the served `catalog.json` against them.

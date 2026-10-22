@@ -1,0 +1,58 @@
+name: Signed catalogue merge
+
+# Applies reviewed community reports to the record and commits the result
+# through GitHub's Contents API, so the commit carries GitHub's verified
+# signature. Manual only. Never runs on a push or a pull request.
+
+on:
+  workflow_dispatch:
+    inputs:
+      reports:
+        description: "Space-separated report paths (e.g. reports/incoming/a.json reports/incoming/b.json)"
+        required: true
+      expect_hash:
+        description: "SHA-256 of the current catalog.json printed by the dry run you reviewed"
+        required: true
+      updated:
+        description: "Snapshot date to stamp (YYYY-MM-DD)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Dry run
+        run: node scripts/merge-reports.mjs $(for r in ${{ inputs.reports }}; do printf -- '--report %s ' "$r"; done) --dry-run
+      - name: Apply with the reviewed hash
+        run: |
+          node scripts/merge-reports.mjs $(for r in ${{ inputs.reports }}; do printf -- '--report %s ' "$r"; done) --apply --expect-hash "${{ inputs.expect_hash }}"
+          node -e "const fs=require('fs');const p='client/public/catalog.json';const c=JSON.parse(fs.readFileSync(p));c.updated='${{ inputs.updated }}';fs.writeFileSync(p,JSON.stringify(c,null,2)+'\n')"
+          npm run validate && npm test
+      - name: Commit catalogue through the Contents API (GitHub-signed)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          commit_file () {
+            local path="$1" message="$2"
+            local sha
+            sha=$(gh api "repos/${{ github.repository }}/contents/$path?ref=main" --jq .sha 2>/dev/null || true)
+            gh api --method PUT "repos/${{ github.repository }}/contents/$path" \
+              -f message="$message" -f branch=main \
+              -f content="$(base64 -w0 "$path")" \
+              ${sha:+-f sha="$sha"} --jq '.commit.sha + " " + (.commit.verification.verified|tostring)'
+          }
+          commit_file client/public/catalog.json "record: merge ${{ inputs.reports }} (snapshot ${{ inputs.updated }})"
+          for f in $(git ls-files --others --modified reports/merged); do
+            commit_file "$f" "record: archive accepted evidence $f"
+          done
+      - name: Build check
+        run: npm run build

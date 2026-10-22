@@ -111,3 +111,15 @@ For a catalogue-only refresh within the existing schema, upload just the validat
 ## License
 
 By contributing original text, data, code or artwork, you agree to license your contribution under MIT to the extent you own those rights. Third-party marks, source documents, model weights and provider content are not relicensed. Read [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+
+## How accepted reports reach the record
+
+Maintainers never edit `catalog.json` by hand. After review:
+
+1. `npm run report:merge -- --report reports/incoming/<file>.json --dry-run` prints the proposed changes and the current record hash.
+2. Run the **Signed catalogue merge** workflow (Actions → Signed catalogue merge → Run) with the report paths, that hash and the snapshot date.
+3. The workflow re-runs the dry run, applies with `--expect-hash`, validates, tests, and commits the new `catalog.json` through GitHub's Contents API. GitHub signs commits made that way, so the record's history shows **Verified** on every change.
+4. A static rebuild and deploy stamps the new hash into the page.
+
+If the hash no longer matches (someone else merged first), the workflow aborts; re-run the dry run and start again.

@@ -79,11 +79,29 @@ export let tools: Tool[] = [];
 export let families: FamilyMeta[] = [];
 export let recipes: Recipe[] = [];
 export let metadata = { updated: "", version: 1 };
+/** Provenance of the record this build renders. */
+export const record = {
+  commit: __COMMIT__,
+  expectedSha: __CATALOG_SHA__,
+  buildDate: __BUILD_DATE__,
+  actualSha: "",
+  intact: null as boolean | null,
+  repo: "https://github.com/paulfxyz/panoramix",
+};
+
+async function sha256(text: string): Promise<string> {
+  if (!globalThis.crypto?.subtle) return "";
+  const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(h)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
 
 export async function loadCatalog(): Promise<void> {
   const response = await fetch("./catalog.json", { cache: "no-cache" });
   if (!response.ok) throw new Error(`Catalogue returned HTTP ${response.status}.`);
-  const c = (await response.json()) as Catalog;
+  const raw = await response.text();
+  record.actualSha = await sha256(raw);
+  record.intact = record.actualSha ? record.actualSha === record.expectedSha : null;
+  const c = JSON.parse(raw) as Catalog;
   if (c.version !== 1 || !Array.isArray(c.tools) || !Array.isArray(c.families) || !Array.isArray(c.recipes) || !c.updated)
     throw new Error("The catalogue format is invalid. Restore catalog.json or run npm test.");
   const ids = new Set(c.tools.map((t) => t.id));

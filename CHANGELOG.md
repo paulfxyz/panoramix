@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0 · 23 October 2026
+
+Panoramix becomes a record, not a search box.
+
+- Removed the Ask input and the browse search. Nothing to type: "ask" is only the domain.
+- Added 45 common checks, grouped by theme, each opening a fixed view of the record.
+- Added seven lenses: Radar gallery, Capability matrix, Constellation (RadViz), Rivers, Alternatives to…, I need… checklist, Stack builder.
+- Compare view: plain-English verdict; capability matrix grouped as differences first / shared by all / none document.
+- Cards: labelled six-dimension strip and a documented-capability count.
+- New Record section with an Intact/Altered seal: the build embeds the record SHA-256 and rendering commit; the page re-hashes the served catalog.json on load.
+- New Signed catalogue merge workflow: reviewed merges are committed through GitHub's Contents API and carry GitHub's verified signature.
+- Repositioned copy: GitHub is the source of truth; the site is a window.
+
 ## 1.1.1 · 22 October 2026
 
 - Matcher uses whole-word matching, so short IDs such as "fal" no longer match words like "fallback"; gateway briefs now rank gateways first.
