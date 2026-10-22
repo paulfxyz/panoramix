@@ -41,7 +41,7 @@
 - Include fee and fixed-cost inputs; ensure switching modes clears incompatible rates.
 
 ## Responsive and delivery checks
-- Desktop 1440px, mobile 375px, then desktop; retain usable controls.
+- Desktop 1440px, intermediate widths 1028px / 900px / 800px, mobile 375px, then desktop; retain usable controls.
 - No page-level horizontal overflow; tables may intentionally scroll.
 - Mobile cold-open defaults to cards.
 - Reduced motion disables decorative movement.
@@ -52,4 +52,4 @@
 - Small secondary labels, counts, recipes, chart notes, pricing inputs and evidence remain readable.
 - Original logo and real screenshots appear in README and app.
 - GitHub workflow passes, static ZIP includes JSON, assets, schema and MIT notices, no server or secrets.
-- FTPS deployment remains blocked until FTP_CONNECTION is provided securely; do not claim the public domain is live before external verification.
+- Before any production update, verify the FTP path and current-index precondition, then confirm the public domain after upload.

@@ -21,7 +21,7 @@ An optional `"root": "/your/known/document/root"` narrows discovery. Leave it ou
 
 ## Check the path before deploying
 
-The manual workflow has three modes:
+The manual workflow has three primary modes:
 
 - `inspect`: certificate-verified explicit FTPS login, read-only inspection of known candidate web roots. No full directory dump, file content or credentials are logged.
 - `probe`: creates a uniquely named, harmless verification marker, checks it through the intended public HTTPS domain, then removes it. This proves the document root rather than guessing it. The current `index.html` SHA-256 is printed, or `absent`.
@@ -34,6 +34,12 @@ Do not disable certificate checks, bot protection, or other host security settin
 Open the marker URL through the actual public HTTPS domain in a normal browser. Confirm its exact text and SHA-256 against the logged candidate. Only the candidate that serves that exact marker is proven. Then dispatch `deploy` with `verified_root`, `proof_marker`, `proof_sha256` and `expected_index_sha256`. These are public verification values, not secrets.
 
 The deploy action verifies the same marker again over FTPS, checks the index precondition, installs and read-verifies the static files, and removes the temporary markers from that batch. If SiteGround still challenges non-browser HTTP, the action explicitly reports that public browser verification remains required; this is not an automatic public-HTTPS success claim. Check the real homepage, JSON catalogue and interactive controls in a browser before calling the site live.
+
+### Verified production target
+
+The initial production deployment on 22 October 2026 verified `/askpanoramix.com/public_html` as the document root for https://askpanoramix.com. The deployed HTML and JSON matched the build over public HTTPS, all 13 static files were read-verified over FTPS, and temporary verification markers were removed. The public interface was then opened in a normal browser and its primary controls were exercised.
+
+This is a deployment record, not permission to skip proof checks on later updates. Do not copy any site's login into source files or reports; continue using the encrypted `FTP_CONNECTION` secret.
 
 Run the workflow under **Actions → Manual SiteGround FTPS deployment → Run workflow**. First `inspect`, then `probe`, review the result, then `deploy` with the expected hash. Never use this workflow for an unrelated existing website without reviewing its contents and maintaining a backup.
 

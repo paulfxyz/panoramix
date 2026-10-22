@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1 · 22 October 2026
+
+- Corrected illustration sizing at intermediate desktop/tablet widths to prevent page-wide horizontal scrolling.
+- Added a normal-browser path-verification fallback for SiteGround bot protection, without disabling host security.
+- Added four deployment-proof regression tests and batch-marker cleanup.
+- First SiteGround production deployment verified over certificate-checked FTPS and public HTTPS, followed by browser checks.
+
 ## 1.0.0 · 22 October 2026
 
 Initial public, MIT-licensed release.

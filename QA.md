@@ -48,4 +48,6 @@ Local validation completed for v1.0.0:
 - Reduced-motion rendering, static subdirectory serving, and invalid-catalogue recovery checked.
 - Small secondary-label contrast inspected and adjusted; landscape recheck found no visible small-label contrast failures.
 
-Public domain deployment is separate. FTPS login, path proof and public askpanoramix.com verification require the encrypted FTP_CONNECTION secret and ready hosting; no successful production upload is claimed by these local checks.
+Production deployment on 22 October 2026 confirmed the web root `/askpanoramix.com/public_html`, certificate-checked FTPS transfer/readback of 13 files, matching public HTTPS HTML/JSON and removal of temporary proof markers. A separate public-browser pass exercised the query matcher, comparison modal, media recipe and USD20 token cost scenario. Four Python tests cover browser-proof hashing, invalid-proof rejection, scoped cleanup and SiteGround challenge detection.
+
+The v1.0.1 layout correction was checked at widths 375, 600, 601, 800, 900, 901, 1028, 1150, 1151, 1280 and 1440px, with no document-wide overflow. Search, required-signal filtering, reset, sort, pagination, card/table modes, empty state, comparison/export, recipe comparison, landscape drilldown and the token cost calculation were replayed after the CSS change with no browser console errors.

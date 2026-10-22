@@ -7,7 +7,7 @@
 **Find your magic mix.**
 
 <a href="https://askpanoramix.com"><img src="https://img.shields.io/badge/askpanoramix.com-the_workbench-254c38?style=for-the-badge" alt="askpanoramix.com"></a>
-<img src="https://img.shields.io/badge/version-1.0.0-263b2e?style=for-the-badge" alt="version 1.0.0">
+<img src="https://img.shields.io/badge/version-1.0.1-263b2e?style=for-the-badge" alt="version 1.0.1">
 <img src="https://img.shields.io/badge/hosting-100%25_static-6b805b?style=for-the-badge" alt="100 percent static hosting">
 <img src="https://img.shields.io/badge/database-just_JSON-ad6849?style=for-the-badge" alt="No database server, just JSON">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-254c38?style=for-the-badge" alt="MIT license"></a>
@@ -40,7 +40,7 @@
 
 <p align="center"><a href="#what-you-get">Features</a> · <a href="#upload-to-siteground">SiteGround</a> · <a href="#edit-the-catalogue-without-rebuilding">Edit JSON</a> · <a href="CONTRIBUTING.md">Community reports</a> · <a href="#development">Development</a> · <a href="CHANGELOG.md">Changelog</a> · <a href="SECURITY.md">Security</a> · <a href="#why-panoramix">The name</a></p>
 
-An elegant, open-source AI comparison workbench for [askpanoramix.com](https://askpanoramix.com), built to run on ordinary static hosting including SiteGround. The domain is the intended public home; preparing this repository and its ZIP does not configure the hosting account or publish the domain.
+An elegant, open-source AI comparison workbench live at [askpanoramix.com](https://askpanoramix.com), deployed as static files on SiteGround. The web root was verified against a public HTTPS marker before upload; hosting and source-code publication remain separate operations.
 
 The initial catalogue covers 48 tools in 10 families: agent workspaces, model gateways, direct inference, media APIs, GPU deployment, cloud AI, first-party model APIs, coding/app builders, automation and creative studios. Computer-style agents are compared as workspaces, not confused with model APIs.
 
@@ -70,7 +70,7 @@ The production site is HTML, CSS, browser JavaScript, an original illustration, 
 
 ## Upload to SiteGround
 
-1. Download the [ready-to-host v1.0.0 ZIP](packages/panoramix-siteground-v1.0.0.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
+1. Download the [ready-to-host v1.0.1 ZIP](packages/panoramix-siteground-v1.0.1.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
 2. Extract `panoramix-siteground.zip`. Upload its **contents**, not the outer folder, to the configured document root for `askpanoramix.com` using your FTP/FTPS client.
 3. Confirm that `index.html`, `catalog.json`, the illustration and the `assets/` folder are siblings. Include `.htaccess` if your FTP client hides dotfiles.
 4. Finish the domain and HTTPS setup in your hosting account. These are hosting-side operations, not requirements for a database.
