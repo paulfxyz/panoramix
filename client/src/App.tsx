@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ArrowRight, ArrowUpRight, Check, Moon, Plus, Scale, Sun, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Moon, Plus, Scale, Search, Shuffle, Sun, X } from "lucide-react";
 import { AlternativesLens, ChecklistLens, MapLens, MatrixLens, Radar, RADAR_COLORS, RadarGallery, RiversLens, StackLens, lensMeta, type Lens, type LensKind } from "./lenses";
-import { groupLabels, questions, type Question, type QuestionGroup } from "./questions";
+import { buildDeck, buildQuestions, filterQuestions, groupLabels, type CompareViewKind, type Question, type QuestionGroup } from "./questions";
 import {
   dimensions,
   familyOf,
@@ -261,14 +261,16 @@ function CompareView({
   onClose,
   onRemove,
   onOpen,
+  initialView = "radar",
 }: {
   ids: string[];
   onClose: () => void;
   onRemove: (id: string) => void;
   onOpen: (t: Tool) => void;
+  initialView?: CompareViewKind;
 }) {
   const list = ids.map(toolOf).filter(Boolean) as Tool[];
-  const [view, setView] = useState<"radar" | "bars" | "matrix" | "facts">("radar");
+  const [view, setView] = useState<CompareViewKind>(initialView);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
@@ -496,6 +498,27 @@ export default function App() {
   const [open, setOpen] = useState<Tool | null>(null);
   const [comparing, setComparing] = useState(false);
   const [limitNote, setLimitNote] = useState(false);
+  const [query, setQuery] = useState("");
+  const [showAll, setShowAll] = useState(false);
+  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 1e9));
+  const [page, setPage] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [prep, setPrep] = useState<Question | null>(null);
+  const [compareView, setCompareView] = useState<CompareViewKind>("radar");
+  const [addQuery, setAddQuery] = useState("");
+
+  const questions = useMemo(() => buildQuestions(tools, families), []);
+  const deck = useMemo(() => buildDeck(questions, seed), [questions, seed]);
+  const TEN = 10;
+  const pages = Math.ceil(deck.length / TEN);
+  const ROTATE_MS = 120000;
+  useEffect(() => {
+    if (paused || query || showAll || group !== "all") return;
+    const id = window.setInterval(() => setPage((p) => (p + 1) % pages), ROTATE_MS);
+    return () => window.clearInterval(id);
+  }, [paused, query, showAll, group, pages]);
+  const nextTen = () => setPage((p) => (p + 1) % pages);
+  const reshuffle = () => { setSeed(Math.floor(Math.random() * 1e9)); setPage(0); };
 
   useEffect(() => {
     document.body.classList.toggle("dark", dark);
@@ -520,22 +543,32 @@ export default function App() {
   const ask = (q: Question) => {
     setQuestion(q);
     if (q.compare) {
+      setLens(null);
       setPicked(q.compare.slice(0, MAX_COMPARE));
-      setComparing(true);
+      setCompareView(q.view ?? "matrix");
+      setAddQuery("");
+      setPrep(q);
+      setTimeout(() => scrollTo("lens"), 60);
       return;
     }
     if (q.lens) {
+      setPrep(null);
       setLens(q.lens);
       setTimeout(() => scrollTo("lens"), 60);
     }
   };
+  const runPrep = () => {
+    if (picked.length >= 2) setComparing(true);
+  };
   const openLens = (kind: LensKind) => {
     setQuestion(null);
+    setPrep(null);
     setLens((l) => (l?.kind === kind ? l : { kind }));
     setTimeout(() => scrollTo("lens"), 60);
   };
   const useRecipe = (r: Recipe) => {
     setPicked(r.ids.slice(0, MAX_COMPARE));
+    setCompareView("radar");
     setComparing(true);
   };
   const acts = {
@@ -544,10 +577,26 @@ export default function App() {
     open: (t: Tool) => setOpen(t),
     compare: (ids: string[]) => {
       setPicked(ids.slice(0, MAX_COMPARE));
+      setCompareView("radar");
       setComparing(true);
     },
   };
-  const visibleQuestions = questions.filter((q) => group === "all" || q.group === group);
+  const filtering = query.trim().length > 0 || group !== "all" || showAll;
+  const matches = useMemo(() => filterQuestions(questions, query, group), [questions, query, group]);
+  const [limit, setLimit] = useState(30);
+  useEffect(() => setLimit(30), [query, group, showAll]);
+  const tenNow = deck.slice(page * TEN, page * TEN + TEN);
+  const rows = filtering ? matches.slice(0, limit) : tenNow;
+  const pickedTools = picked.map(toolOf).filter(Boolean) as Tool[];
+  const addCandidates = useMemo(() => {
+    const qn = addQuery.trim().toLowerCase();
+    const fams = new Set(pickedTools.map((t) => t.family));
+    return tools
+      .filter((t) => !picked.includes(t.id))
+      .filter((t) => !qn || t.name.toLowerCase().includes(qn) || familyOf(t.family).name.toLowerCase().includes(qn))
+      .sort((a, b) => Number(fams.has(b.family)) - Number(fams.has(a.family)) || b.features.length - a.features.length)
+      .slice(0, qn ? 10 : 8);
+  }, [addQuery, picked, pickedTools]);
 
   const total = useCountUp(tools.length);
   const famCount = useCountUp(families.length);
@@ -621,26 +670,85 @@ export default function App() {
                 <span className="eyebrow">Common checks</span>
                 <h2>What people look up.</h2>
               </div>
-              <p className="section-note">The {questions.length} checks run most often against the record. Each is a fixed, reproducible view of the catalogue: same record, same answer, for everyone.</p>
+              <p className="section-note">{questions.length} ready-made cases. Pick one and the setup is already filled in: tools, view, filters. Adjust anything, then run it.</p>
             </header>
-            <div className="tabs groups" role="tablist" aria-label="Question groups">
-              <button role="tab" aria-selected={group === "all"} className={`chip ${group === "all" ? "is-on" : ""}`} onClick={() => setGroup("all")}>All <small>{questions.length}</small></button>
-              {(Object.keys(groupLabels) as QuestionGroup[]).map((g) => (
-                <button key={g} role="tab" aria-selected={group === g} className={`chip ${group === g ? "is-on" : ""}`} onClick={() => setGroup(g)}>
-                  {groupLabels[g]} <small>{questions.filter((q) => q.group === g).length}</small>
-                </button>
-              ))}
+
+            <div className="checks-bar">
+              <label className="field checks-field">
+                <Search className="field-icon" size={22} aria-hidden="true" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder={`Filter ${questions.length} cases: a tool, a capability, "vs", "self-host"…`}
+                  aria-label="Filter the cases"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+                {query && (
+                  <button type="button" className="field-clear" aria-label="Clear" onClick={() => setQuery("")}>
+                    <X size={18} />
+                  </button>
+                )}
+              </label>
+              <div className="tabs groups" role="tablist" aria-label="Case groups">
+                <button role="tab" aria-selected={group === "all"} className={`chip ${group === "all" ? "is-on" : ""}`} onClick={() => setGroup("all")}>All <small>{questions.length}</small></button>
+                {(Object.keys(groupLabels) as QuestionGroup[]).map((g) => (
+                  <button key={g} role="tab" aria-selected={group === g} className={`chip ${group === g ? "is-on" : ""}`} onClick={() => setGroup(g)}>
+                    {groupLabels[g]} <small>{questions.filter((q) => q.group === g).length}</small>
+                  </button>
+                ))}
+              </div>
             </div>
-            <ul className="cloud" key={group}>
-              {visibleQuestions.map((q, i) => (
-                <li key={q.id} style={{ ["--d" as string]: `${Math.min(i, 24) * 25}ms` }}>
-                  <button type="button" className={`q ${question?.id === q.id ? "is-on" : ""} ${q.compare ? "q-compare" : ""}`} onClick={() => ask(q)}>
-                    <span>{q.text}</span>
-                    <small>{q.compare ? "Side by side" : lensMeta[q.lens!.kind].title}</small>
+
+            <div className="qlist-head">
+              {filtering ? (
+                <p className="qlist-status" aria-live="polite">
+                  <strong>{matches.length}</strong> {matches.length === 1 ? "case" : "cases"}
+                  {query.trim() && <> for “{query.trim()}”</>}
+                  {group !== "all" && <> in {groupLabels[group]}</>}
+                  {matches.length === 0 && <> — try a tool name, a capability or “vs”.</>}
+                </p>
+              ) : (
+                <p className="qlist-status">
+                  <strong>Ten right now</strong> · set {page + 1} of {pages} · a new ten every two minutes
+                </p>
+              )}
+              <div className="qlist-actions">
+                {!filtering && (
+                  <>
+                    <button type="button" className="btn btn-sm btn-ghost" onClick={nextTen}><Shuffle size={16} /> Next ten</button>
+                    <button type="button" className="btn btn-sm btn-ghost" onClick={reshuffle}>Reshuffle</button>
+                  </>
+                )}
+                <button type="button" className={`btn btn-sm ${showAll ? "" : "btn-ghost"}`} aria-pressed={showAll} onClick={() => { setShowAll((v) => !v); setQuery(""); }}>
+                  {showAll ? "Back to ten" : `All ${questions.length}`}
+                </button>
+              </div>
+            </div>
+            {!filtering && <div className="rot" key={`${seed}-${page}-${paused}`} data-paused={paused || undefined} aria-hidden="true"><span style={{ ["--ms" as string]: `${ROTATE_MS}ms` }} /></div>}
+
+            <ol className="qlist" key={filtering ? `f-${query}-${group}-${showAll}` : `d-${seed}-${page}`} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+              {rows.map((q, i) => (
+                <li key={q.id} style={{ ["--d" as string]: `${Math.min(i, 24) * 35}ms` }}>
+                  <button type="button" className={`qrow ${question?.id === q.id ? "is-on" : ""}`} onClick={() => ask(q)}>
+                    <span className="qrow-n">{String((filtering ? i : page * TEN + i) + 1).padStart(2, "0")}</span>
+                    <span className="qrow-tag">{groupLabels[q.group]}</span>
+                    <span className="qrow-text">{q.text}</span>
+                    <span className={`qrow-view ${q.compare ? "is-compare" : ""}`}>
+                      {q.compare ? <><Scale size={14} /> {q.compare.length} tools · {q.view === "matrix" ? "table" : q.view ?? "radar"}</> : <><LensIcon kind={q.lens!.kind} /> {lensMeta[q.lens!.kind].title}</>}
+                    </span>
+                    <ArrowRight className="qrow-arrow" size={18} />
                   </button>
                 </li>
               ))}
-            </ul>
+            </ol>
+            {filtering && matches.length > limit && (
+              <div className="qlist-more">
+                <button type="button" className="btn btn-ghost" onClick={() => setLimit((l) => l + 30)}>Show {Math.min(30, matches.length - limit)} more</button>
+              </div>
+            )}
+
             <div className="lenses">
               <span className="tabs-label">Or start from a lens:</span>
               {(Object.keys(lensMeta) as LensKind[]).map((k) => (
@@ -653,12 +761,77 @@ export default function App() {
           </div>
         </section>
 
+        {/* PREPARED COMPARISON */}
+        {prep && !lens && (
+          <section className="lens wrap prep" id="lens" key={prep.id}>
+            <header className="section-head">
+              <div>
+                <span className="eyebrow">Check · ready to run</span>
+                <h2>{prep.text}</h2>
+              </div>
+              <div className="lens-head-right">
+                <p className="section-note">{prep.read}</p>
+                <button type="button" className="icon-btn" aria-label="Close" onClick={() => { setPrep(null); setQuestion(null); scrollTo("ask"); }}><X size={22} /></button>
+              </div>
+            </header>
+            <div className="prep-grid">
+              <div className="prep-setup">
+                <div className="prep-block">
+                  <span className="tabs-label">Selected ({pickedTools.length}/{MAX_COMPARE})</span>
+                  <ul className="prep-picked">
+                    {pickedTools.map((t, i) => (
+                      <li key={t.id} style={{ ["--c" as string]: RADAR_COLORS[i % RADAR_COLORS.length] }}>
+                        <i className="prep-swatch" />
+                        <button type="button" className="prep-name" onClick={() => setOpen(t)}>{t.name}</button>
+                        <small>{familyOf(t.family).short}</small>
+                        <button type="button" className="prep-x" aria-label={`Remove ${t.name}`} onClick={() => toggle(t.id)}><X size={14} /></button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="prep-block">
+                  <span className="tabs-label">Add another variable</span>
+                  <label className={`field field-sm ${picked.length >= MAX_COMPARE ? "is-disabled" : ""}`}>
+                    <Plus className="field-icon" size={18} aria-hidden="true" />
+                    <input type="search" value={addQuery} disabled={picked.length >= MAX_COMPARE} onChange={(e) => setAddQuery(e.target.value)} placeholder={picked.length >= MAX_COMPARE ? "Four is the maximum. Remove one to swap." : "Type a tool or family to add…"} aria-label="Add a tool to the comparison" autoComplete="off" />
+                  </label>
+                  <div className="prep-suggest">
+                    {addCandidates.map((t) => (
+                      <button key={t.id} type="button" className="chip" disabled={picked.length >= MAX_COMPARE} onClick={() => { toggle(t.id); setAddQuery(""); }}>
+                        <Plus size={14} /> {t.name} <small>{familyOf(t.family).short}</small>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="prep-block prep-run">
+                  <div className="seg" role="tablist" aria-label="Open on">
+                    {(["matrix", "radar", "bars", "facts"] as CompareViewKind[]).map((v) => (
+                      <button key={v} role="tab" aria-selected={compareView === v} className={compareView === v ? "is-on" : ""} onClick={() => setCompareView(v)}>{v === "matrix" ? "Table" : v[0].toUpperCase() + v.slice(1)}</button>
+                    ))}
+                  </div>
+                  <button type="button" className="btn btn-lg" disabled={picked.length < 2} onClick={runPrep}>
+                    Compare {pickedTools.length} now <ArrowRight size={20} />
+                  </button>
+                </div>
+              </div>
+              <aside className="prep-preview" aria-label="Preview">
+                <Radar series={pickedTools.map((t) => ({ name: t.name, values: profile(t) }))} size={340} />
+                <ul className="prep-legend">
+                  {pickedTools.map((t, i) => (
+                    <li key={t.id} style={{ ["--c" as string]: RADAR_COLORS[i % RADAR_COLORS.length] }}><i className="prep-swatch" />{t.name} <small>{t.features.length} documented</small></li>
+                  ))}
+                </ul>
+              </aside>
+            </div>
+          </section>
+        )}
+
         {/* LENS PANEL */}
         {lens && (
           <section className="lens wrap" id="lens" key={lens.kind}>
             <header className="section-head">
               <div>
-                <span className="eyebrow">{question ? "Check" : "Lens"}</span>
+                <span className="eyebrow">{question ? "Check · preset, adjust anything below" : "Lens"}</span>
                 <h2>{question ? question.text : lensMeta[lens.kind].title}</h2>
               </div>
               <div className="lens-head-right">
@@ -872,7 +1045,7 @@ export default function App() {
 
       <Drawer t={open} onClose={() => setOpen(null)} selected={!!open && picked.includes(open.id)} onToggle={() => open && toggle(open.id)} />
       {comparing && picked.length > 0 && (
-        <CompareView ids={picked} onClose={() => setComparing(false)} onRemove={(id) => { toggle(id); if (picked.length <= 1) setComparing(false); }} onOpen={(t) => setOpen(t)} />
+        <CompareView key={compareView} initialView={compareView} ids={picked} onClose={() => setComparing(false)} onRemove={(id) => { toggle(id); if (picked.length <= 1) setComparing(false); }} onOpen={(t) => setOpen(t)} />
       )}
     </div>
   );

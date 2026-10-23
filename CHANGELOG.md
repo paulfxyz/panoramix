@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.0 · 23 October 2026
+
+- Record: 34 new tools (82 total) from official sources, including Microsoft 365 Copilot, Relevance AI, Helicone, Kong AI Gateway, Eden AI, SambaNova, Hyperbolic, Lambda, Featherless, Stability AI, Black Forest Labs, Segmind, CoreWeave, Vast.ai, Hugging Face Inference Endpoints, IBM watsonx.ai, Databricks Mosaic AI, Gemini API, xAI, DeepSeek, Cohere, Kimi, Windsurf, Bolt.new, v0, Replit Agent, GitHub Copilot coding agent, Pipedream, Activepieces, Dify, Luma, Kling, Suno, Ideogram.
+- Cases: 500 ready-made cases (45 hand-written + generated from the record), shown one per line with group badge and target view.
+- Filter field over the cases; group tabs; "All 500" list with progressive loading.
+- Ten cases rotate every two minutes with a depleting bar; Next ten / Reshuffle; rotation pauses on hover.
+- Prepared comparison: picking a head-to-head case fills the selection, lets you remove/add/swap tools, choose the opening view (table by default) and shows a preview radar before running.
+- Compare modal opens on the view the case asked for.
+
 ## 1.2.0 · 23 October 2026
 
 Panoramix becomes a record, not a search box.

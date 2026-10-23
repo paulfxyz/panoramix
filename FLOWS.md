@@ -3,11 +3,13 @@
 ## Landing and navigation
 - Checks, Browse, Recipes, The record, The druid scroll to sections; theme toggle persists; header CTA "Open the record".
 
-## Common checks
-- Group tabs filter the cloud; counts match.
-- A lens-backed check opens the lens panel with the check's title and reading note.
-- A compare-backed check opens the compare view with its tools.
-- Close (×) in the lens header returns to the cloud.
+## Cases
+- Filter field narrows the 500 cases (ranked: whole word, prefix, substring); clear (×) resets.
+- Group tabs filter; counts match; "All 500" lists everything, 30 at a time.
+- With no filter: ten cases shown, rotating every 120 s; bar depletes; hover pauses (bar turns red); Next ten / Reshuffle.
+- A lens-backed case opens the lens panel preset with the case's configuration; everything stays adjustable.
+- A compare-backed case opens the prepared setup: selected tools, add field + suggestions (same family first), view selector (Table default), preview radar, "Compare N now" (enabled at ≥2).
+- Close (×) returns to the cases.
 
 ## Lenses
 - Radar gallery: family tabs; one radar per tool; + adds to dock; radar click opens drawer.

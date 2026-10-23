@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-10-22",
+  "updated": "2026-10-23",
   "tools": [
     {
       "id": "computer",
@@ -1196,6 +1196,839 @@
         "editing",
         "api",
         "no-code"
+      ]
+    },
+    {
+      "id": "m365-copilot",
+      "name": "Microsoft 365 Copilot",
+      "family": "agents",
+      "description": "Copilot for Microsoft 365 with the Researcher and Analyst reasoning agents: web plus work-data research, and data analysis with Python.",
+      "access": "Hosted workspace (Microsoft 365 licence)",
+      "features": [
+        "text",
+        "research",
+        "code",
+        "connectors",
+        "vision"
+      ],
+      "billing": "Microsoft 365 Copilot add-on or Premium/Pro subscription",
+      "best": "Research and data analysis grounded in Microsoft 365 work data.",
+      "watch": "Admin-governed; agent availability depends on tenant settings and licence.",
+      "source": "https://support.microsoft.com/en-us/microsoft-365-copilot/agents-built-by-microsoft",
+      "extra": "https://www.microsoft.com/en-us/copilot/blog/2025/03/25/introducing-researcher-and-analyst-in-microsoft-365-copilot/",
+      "tags": [
+        "agent",
+        "research",
+        "analysis",
+        "enterprise",
+        "microsoft",
+        "office"
+      ]
+    },
+    {
+      "id": "relevance",
+      "name": "Relevance AI",
+      "family": "agents",
+      "description": "A platform to build and run teams of AI agents with tools, triggers and integrations.",
+      "access": "Hosted workspace + API",
+      "features": [
+        "text",
+        "research",
+        "connectors",
+        "schedule",
+        "code",
+        "visual"
+      ],
+      "billing": "Tiered plans with credits",
+      "best": "Building a workforce of specialised agents for business operations.",
+      "watch": "Credit consumption varies by model and tool calls.",
+      "source": "https://relevanceai.com/docs",
+      "tags": [
+        "agent",
+        "workforce",
+        "automation",
+        "business",
+        "no-code"
+      ]
+    },
+    {
+      "id": "helicone",
+      "name": "Helicone AI Gateway",
+      "family": "gateways",
+      "description": "An open-source, OpenAI-compatible gateway to 100+ providers with routing, fallbacks and built-in observability.",
+      "access": "Hosted API or self-hosted",
+      "features": [
+        "text",
+        "routing",
+        "openai",
+        "selfhost"
+      ],
+      "billing": "Pass-through model usage at 0% markup, or bring your own keys",
+      "best": "Routing with observability and failover under one key.",
+      "watch": "Routing defaults to the cheapest provider; pin providers when latency or data residency matter.",
+      "source": "https://docs.helicone.ai/gateway/overview",
+      "extra": "https://docs.helicone.ai/gateway/provider-routing",
+      "tags": [
+        "api",
+        "gateway",
+        "routing",
+        "fallback",
+        "observability",
+        "open-source"
+      ]
+    },
+    {
+      "id": "kong-ai",
+      "name": "Kong AI Gateway",
+      "family": "gateways",
+      "description": "AI plugins for the Kong Gateway that proxy, govern and load-balance requests across LLM providers.",
+      "access": "Self-hosted or Kong Konnect",
+      "features": [
+        "text",
+        "routing",
+        "openai",
+        "selfhost",
+        "custom"
+      ],
+      "billing": "Open-source gateway; Konnect and Enterprise tiers",
+      "best": "Platform teams adding AI traffic governance to existing API infrastructure.",
+      "watch": "Capabilities differ between OSS and Enterprise plugins.",
+      "source": "https://developer.konghq.com/ai-gateway/",
+      "tags": [
+        "api",
+        "gateway",
+        "enterprise",
+        "governance",
+        "self-host",
+        "routing"
+      ]
+    },
+    {
+      "id": "edenai",
+      "name": "Eden AI",
+      "family": "gateways",
+      "description": "A single API aggregating text, image, speech, OCR and translation providers with fallback.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "image",
+        "audio",
+        "vision",
+        "routing"
+      ],
+      "billing": "Pay-as-you-go per provider call",
+      "best": "Comparing and switching across many AI vendors, not only LLMs.",
+      "watch": "Each provider keeps its own pricing and limits behind the unified call.",
+      "source": "https://docs.edenai.co/",
+      "tags": [
+        "api",
+        "aggregator",
+        "multimodal",
+        "fallback",
+        "speech",
+        "ocr"
+      ]
+    },
+    {
+      "id": "sambanova",
+      "name": "SambaNova Cloud",
+      "family": "inference",
+      "description": "Fast inference for open models on SambaNova's RDU hardware through an OpenAI-compatible API.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "openai",
+        "audio"
+      ],
+      "billing": "Per-token, free tier and developer plans",
+      "best": "Low-latency open-model inference with an OpenAI-style endpoint.",
+      "watch": "Model catalogue is curated; check availability of specific sizes.",
+      "source": "https://docs.sambanova.ai/cloud/docs/get-started/overview",
+      "tags": [
+        "api",
+        "inference",
+        "speed",
+        "open-models",
+        "openai-compatible"
+      ]
+    },
+    {
+      "id": "hyperbolic",
+      "name": "Hyperbolic",
+      "family": "inference",
+      "description": "Open-model inference plus on-demand GPU rental in one platform.",
+      "access": "Hosted API + GPU marketplace",
+      "features": [
+        "text",
+        "vision",
+        "image",
+        "audio",
+        "openai",
+        "custom"
+      ],
+      "billing": "Per-token inference; per-hour GPUs",
+      "best": "Mixing hosted open-model APIs with cheap GPU capacity.",
+      "watch": "Marketplace GPU availability and pricing fluctuate.",
+      "source": "https://docs.hyperbolic.xyz/docs/getting-started",
+      "tags": [
+        "api",
+        "inference",
+        "gpu",
+        "open-models",
+        "image",
+        "openai-compatible"
+      ]
+    },
+    {
+      "id": "lambda-inference",
+      "name": "Lambda Inference API",
+      "family": "inference",
+      "description": "Serverless, OpenAI-compatible inference for open models from Lambda's GPU cloud.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "openai"
+      ],
+      "billing": "Per-token",
+      "best": "Simple open-model inference alongside Lambda GPU instances.",
+      "watch": "Smaller model list than aggregator gateways.",
+      "source": "https://docs.lambda.ai/public-cloud/lambda-inference-api/",
+      "tags": [
+        "api",
+        "inference",
+        "open-models",
+        "openai-compatible",
+        "gpu"
+      ]
+    },
+    {
+      "id": "featherless",
+      "name": "Featherless.ai",
+      "family": "inference",
+      "description": "Serverless access to thousands of Hugging Face models under a flat subscription.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "openai"
+      ],
+      "billing": "Flat monthly subscription tiers",
+      "best": "Trying many open fine-tunes without per-token billing.",
+      "watch": "Concurrency and model-size limits scale with the plan.",
+      "source": "https://featherless.ai/docs",
+      "tags": [
+        "api",
+        "inference",
+        "open-models",
+        "subscription",
+        "openai-compatible",
+        "huggingface"
+      ]
+    },
+    {
+      "id": "stability",
+      "name": "Stability AI API",
+      "family": "media",
+      "description": "REST API for Stable Diffusion and Stable Image models: generate, edit, upscale, 3D and audio.",
+      "access": "Hosted API",
+      "features": [
+        "image",
+        "audio",
+        "video",
+        "custom"
+      ],
+      "billing": "Credits per generation",
+      "best": "Production image pipelines on the Stable Image family.",
+      "watch": "Licensing terms differ for commercial use above revenue thresholds.",
+      "source": "https://platform.stability.ai/docs/api-reference",
+      "tags": [
+        "api",
+        "image",
+        "upscale",
+        "3d",
+        "audio",
+        "stable-diffusion"
+      ]
+    },
+    {
+      "id": "bfl",
+      "name": "Black Forest Labs API",
+      "family": "media",
+      "description": "Official API for the FLUX image models, including editing and fine-tuning.",
+      "access": "Hosted API",
+      "features": [
+        "image",
+        "custom"
+      ],
+      "billing": "Credits per image",
+      "best": "Direct access to FLUX generation and editing.",
+      "watch": "Image-only; pair with another provider for video or audio.",
+      "source": "https://docs.bfl.ai/",
+      "tags": [
+        "api",
+        "image",
+        "flux",
+        "editing",
+        "fine-tuning"
+      ]
+    },
+    {
+      "id": "segmind",
+      "name": "Segmind",
+      "family": "media",
+      "description": "Serverless API and workflow builder for image, video and audio models.",
+      "access": "Hosted API + workflow builder",
+      "features": [
+        "image",
+        "video",
+        "audio",
+        "visual",
+        "custom"
+      ],
+      "billing": "Credits per call",
+      "best": "Chaining media models into pipelines without infrastructure.",
+      "watch": "Model quality and pricing vary widely across the catalogue.",
+      "source": "https://docs.segmind.com/",
+      "tags": [
+        "api",
+        "image",
+        "video",
+        "audio",
+        "workflow",
+        "pipelines"
+      ]
+    },
+    {
+      "id": "coreweave",
+      "name": "CoreWeave",
+      "family": "gpu",
+      "description": "A GPU cloud built on Kubernetes for training and large-scale inference.",
+      "access": "Cloud infrastructure",
+      "features": [
+        "custom",
+        "code"
+      ],
+      "billing": "Per-hour GPU instances, reserved capacity",
+      "best": "Large training runs and dedicated inference clusters.",
+      "watch": "Oriented to committed capacity; small on-demand use is not the focus.",
+      "source": "https://docs.coreweave.com/",
+      "tags": [
+        "gpu",
+        "kubernetes",
+        "training",
+        "inference",
+        "cloud",
+        "enterprise"
+      ]
+    },
+    {
+      "id": "vastai",
+      "name": "Vast.ai",
+      "family": "gpu",
+      "description": "A marketplace renting GPUs from many hosts at spot and on-demand prices.",
+      "access": "GPU marketplace",
+      "features": [
+        "custom",
+        "code",
+        "selfhost"
+      ],
+      "billing": "Per-hour, host-set prices, interruptible options",
+      "best": "Cheapest raw GPU hours for experiments and batch jobs.",
+      "watch": "Host reliability and data handling vary; check verified hosts.",
+      "source": "https://docs.vast.ai/",
+      "tags": [
+        "gpu",
+        "marketplace",
+        "cheap",
+        "spot",
+        "rental"
+      ]
+    },
+    {
+      "id": "hf-endpoints",
+      "name": "Hugging Face Inference Endpoints",
+      "family": "gpu",
+      "description": "Deploy any Hub model on managed, autoscaling infrastructure across clouds.",
+      "access": "Managed deployment",
+      "features": [
+        "custom",
+        "text",
+        "vision",
+        "image",
+        "audio",
+        "openai"
+      ],
+      "billing": "Per-hour by instance, scale to zero",
+      "best": "One-click dedicated endpoints for Hub models.",
+      "watch": "Cold starts after scale-to-zero; instance pricing differs by cloud.",
+      "source": "https://huggingface.co/docs/inference-endpoints/index",
+      "tags": [
+        "gpu",
+        "deployment",
+        "huggingface",
+        "dedicated",
+        "autoscale"
+      ]
+    },
+    {
+      "id": "watsonx",
+      "name": "IBM watsonx.ai",
+      "family": "cloud",
+      "description": "IBM's enterprise studio for foundation models, prompt tooling and governance.",
+      "access": "Cloud platform (IBM Cloud or on-premises)",
+      "features": [
+        "text",
+        "vision",
+        "custom",
+        "selfhost",
+        "visual"
+      ],
+      "billing": "Per-token and tiered plans",
+      "best": "Regulated enterprises wanting governance and on-premises options.",
+      "watch": "Model choice is narrower than hyperscaler marketplaces; on-premises runs through IBM software deployments.",
+      "source": "https://www.ibm.com/products/watsonx-ai",
+      "tags": [
+        "cloud",
+        "enterprise",
+        "governance",
+        "on-prem",
+        "granite"
+      ]
+    },
+    {
+      "id": "databricks",
+      "name": "Databricks Mosaic AI",
+      "family": "cloud",
+      "description": "Foundation Model APIs, fine-tuning and agent tooling inside the Databricks lakehouse.",
+      "access": "Cloud platform",
+      "features": [
+        "text",
+        "vision",
+        "custom",
+        "code",
+        "openai"
+      ],
+      "billing": "Per-token and provisioned throughput, Databricks units",
+      "best": "Teams already on Databricks who want models next to their data.",
+      "watch": "Costs stack with workspace compute; governance via Unity Catalog.",
+      "source": "https://docs.databricks.com/aws/en/machine-learning/foundation-model-apis/",
+      "tags": [
+        "cloud",
+        "data",
+        "lakehouse",
+        "fine-tuning",
+        "enterprise"
+      ]
+    },
+    {
+      "id": "gemini-api",
+      "name": "Google Gemini API",
+      "family": "models",
+      "description": "Google's first-party API for Gemini models: text, vision, audio, image and video generation.",
+      "access": "Hosted API (AI Studio)",
+      "features": [
+        "text",
+        "vision",
+        "image",
+        "video",
+        "audio",
+        "code",
+        "research",
+        "openai"
+      ],
+      "billing": "Per-token, free tier",
+      "best": "Long context and native multimodal work from one provider.",
+      "watch": "Free-tier data-use terms differ from paid; rate limits by tier.",
+      "source": "https://ai.google.dev/gemini-api/docs",
+      "tags": [
+        "api",
+        "multimodal",
+        "google",
+        "long-context",
+        "video",
+        "audio"
+      ]
+    },
+    {
+      "id": "xai",
+      "name": "xAI API",
+      "family": "models",
+      "description": "First-party API for Grok models with text, vision and image generation.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "image",
+        "openai",
+        "research"
+      ],
+      "billing": "Per-token",
+      "best": "Grok models with live search tooling.",
+      "watch": "Smaller ecosystem of SDK integrations than larger labs.",
+      "source": "https://docs.x.ai/docs/overview",
+      "tags": [
+        "api",
+        "grok",
+        "vision",
+        "image",
+        "search"
+      ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek API",
+      "family": "models",
+      "description": "First-party OpenAI-compatible API for DeepSeek chat and reasoning models.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "openai"
+      ],
+      "billing": "Per-token with cache discounts",
+      "best": "Low-cost reasoning and chat at scale.",
+      "watch": "Data handling and jurisdiction; check terms for sensitive data.",
+      "source": "https://api-docs.deepseek.com/",
+      "tags": [
+        "api",
+        "reasoning",
+        "low-cost",
+        "openai-compatible"
+      ]
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere API",
+      "family": "models",
+      "description": "Command, Embed and Rerank models aimed at enterprise retrieval and agents.",
+      "access": "Hosted API, private deployments",
+      "features": [
+        "text",
+        "vision",
+        "custom",
+        "selfhost"
+      ],
+      "billing": "Per-token; enterprise contracts",
+      "best": "Retrieval-augmented and multilingual enterprise applications.",
+      "watch": "Strength is RAG tooling rather than media generation.",
+      "source": "https://docs.cohere.com/",
+      "tags": [
+        "api",
+        "embeddings",
+        "rerank",
+        "rag",
+        "enterprise",
+        "multilingual"
+      ]
+    },
+    {
+      "id": "kimi",
+      "name": "Moonshot Kimi API",
+      "family": "models",
+      "description": "First-party OpenAI-compatible API for Kimi models, including long-context and agentic variants.",
+      "access": "Hosted API",
+      "features": [
+        "text",
+        "vision",
+        "openai"
+      ],
+      "billing": "Per-token",
+      "best": "Long-context chat and tool use at low cost.",
+      "watch": "Region and data-residency considerations.",
+      "source": "https://platform.moonshot.ai/docs/introduction",
+      "tags": [
+        "api",
+        "long-context",
+        "agentic",
+        "openai-compatible"
+      ]
+    },
+    {
+      "id": "windsurf",
+      "name": "Windsurf",
+      "family": "coding",
+      "description": "An agentic IDE with Cascade, an agent that edits, runs commands and browses your codebase.",
+      "access": "Desktop editor + plugins",
+      "features": [
+        "code",
+        "text",
+        "vision",
+        "browser"
+      ],
+      "billing": "Free tier and credit-based plans",
+      "best": "Full-IDE agentic coding with deep codebase context.",
+      "watch": "Credit consumption per prompt; model choice affects cost.",
+      "source": "https://docs.windsurf.com/windsurf/getting-started",
+      "tags": [
+        "coding",
+        "ide",
+        "agent",
+        "editor"
+      ]
+    },
+    {
+      "id": "bolt",
+      "name": "Bolt.new",
+      "family": "coding",
+      "description": "Prompt-to-full-stack app builder running in the browser with deploy and database integrations.",
+      "access": "Hosted web app",
+      "features": [
+        "code",
+        "text",
+        "visual",
+        "connectors",
+        "vision"
+      ],
+      "billing": "Token-based plans",
+      "best": "Prototyping full-stack web apps from a prompt.",
+      "watch": "Token usage can climb on large projects; export to keep control.",
+      "source": "https://support.bolt.new/",
+      "tags": [
+        "coding",
+        "app-builder",
+        "prototype",
+        "web",
+        "no-code"
+      ]
+    },
+    {
+      "id": "v0",
+      "name": "v0 by Vercel",
+      "family": "coding",
+      "description": "Generative UI and app builder that produces React code and deploys to Vercel.",
+      "access": "Hosted web app + API",
+      "features": [
+        "code",
+        "text",
+        "vision",
+        "visual",
+        "connectors"
+      ],
+      "billing": "Credit-based plans",
+      "best": "Designing and shipping front-ends fast within the Vercel ecosystem.",
+      "watch": "Framework-opinionated (Next.js, shadcn/ui).",
+      "source": "https://v0.app/docs",
+      "tags": [
+        "coding",
+        "ui",
+        "react",
+        "vercel",
+        "design"
+      ]
+    },
+    {
+      "id": "replit-agent",
+      "name": "Replit Agent",
+      "family": "coding",
+      "description": "An agent that builds, runs and deploys apps inside Replit's cloud workspace.",
+      "access": "Hosted workspace",
+      "features": [
+        "code",
+        "text",
+        "visual",
+        "connectors",
+        "vision"
+      ],
+      "billing": "Subscription plus usage-based agent checkpoints",
+      "best": "Zero-setup apps with hosting and database included.",
+      "watch": "Effort-based billing varies per task.",
+      "source": "https://docs.replit.com/replitai/agent",
+      "tags": [
+        "coding",
+        "app-builder",
+        "cloud",
+        "deploy",
+        "database"
+      ]
+    },
+    {
+      "id": "copilot-agent",
+      "name": "GitHub Copilot coding agent",
+      "family": "coding",
+      "description": "Assign issues to Copilot and receive pull requests from an agent running in GitHub Actions.",
+      "access": "GitHub (Pro+/Business/Enterprise)",
+      "features": [
+        "code",
+        "text",
+        "connectors",
+        "browser"
+      ],
+      "billing": "Premium requests and Actions minutes",
+      "best": "Delegating well-scoped tasks straight from GitHub issues.",
+      "watch": "Runs in a GitHub-managed sandbox; repository settings gate it.",
+      "source": "https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent",
+      "tags": [
+        "coding",
+        "github",
+        "agent",
+        "pull-requests",
+        "ci"
+      ]
+    },
+    {
+      "id": "pipedream",
+      "name": "Pipedream",
+      "family": "automation",
+      "description": "Developer-first workflow automation with code steps and thousands of app connectors.",
+      "access": "Hosted platform",
+      "features": [
+        "connectors",
+        "schedule",
+        "code",
+        "visual"
+      ],
+      "billing": "Credits per execution, free tier",
+      "best": "Workflows that mix no-code triggers with Node/Python code.",
+      "watch": "Credit accounting by execution time and memory.",
+      "source": "https://pipedream.com/docs",
+      "tags": [
+        "automation",
+        "developer",
+        "connectors",
+        "code",
+        "webhooks"
+      ]
+    },
+    {
+      "id": "activepieces",
+      "name": "Activepieces",
+      "family": "automation",
+      "description": "Open-source, self-hostable automation with an AI-first piece library.",
+      "access": "Self-hosted or cloud",
+      "features": [
+        "connectors",
+        "schedule",
+        "visual",
+        "selfhost",
+        "code"
+      ],
+      "billing": "Open source (MIT core); cloud plans",
+      "best": "Zapier-style automation you can run yourself.",
+      "watch": "Piece coverage smaller than market leaders.",
+      "source": "https://www.activepieces.com/docs",
+      "tags": [
+        "automation",
+        "open-source",
+        "self-host",
+        "no-code",
+        "mcp"
+      ]
+    },
+    {
+      "id": "dify",
+      "name": "Dify",
+      "family": "automation",
+      "description": "Open-source LLM app platform: visual workflows, agents, RAG pipelines and model management.",
+      "access": "Self-hosted or cloud",
+      "features": [
+        "text",
+        "visual",
+        "connectors",
+        "selfhost",
+        "code",
+        "vision"
+      ],
+      "billing": "Open source; cloud plans",
+      "best": "Building LLM apps and agent workflows visually with any model.",
+      "watch": "Self-hosting needs several services (DB, vector store, workers).",
+      "source": "https://docs.dify.ai/",
+      "tags": [
+        "automation",
+        "llmops",
+        "open-source",
+        "rag",
+        "agents",
+        "workflow"
+      ]
+    },
+    {
+      "id": "luma",
+      "name": "Luma Dream Machine",
+      "family": "creative",
+      "description": "Image and video generation studio with the Ray models and an API.",
+      "access": "Hosted studio + API",
+      "features": [
+        "image",
+        "video",
+        "visual"
+      ],
+      "billing": "Subscription credits; API per generation",
+      "best": "Cinematic video clips with reference images and extensions.",
+      "watch": "Clip length and resolution tiers depend on plan.",
+      "source": "https://docs.lumalabs.ai/docs/welcome",
+      "tags": [
+        "creative",
+        "video",
+        "image",
+        "studio",
+        "api"
+      ]
+    },
+    {
+      "id": "kling",
+      "name": "Kling AI",
+      "family": "creative",
+      "description": "Kuaishou's video and image generation studio with motion control and lip-sync.",
+      "access": "Hosted studio + API",
+      "features": [
+        "image",
+        "video",
+        "audio",
+        "visual"
+      ],
+      "billing": "Credits, subscription tiers",
+      "best": "Longer video clips with motion brush and reference control.",
+      "watch": "Queue times vary by tier; API access via partner platforms or Kling's own API.",
+      "source": "https://app.klingai.com/global/dev/document-api/quickStart/productIntroduction/overview",
+      "tags": [
+        "creative",
+        "video",
+        "image",
+        "lip-sync",
+        "motion"
+      ]
+    },
+    {
+      "id": "suno",
+      "name": "Suno",
+      "family": "creative",
+      "description": "Text-to-song generation with vocals, lyrics and stems.",
+      "access": "Hosted studio",
+      "features": [
+        "audio",
+        "visual"
+      ],
+      "billing": "Free tier and subscriptions",
+      "best": "Complete songs from a prompt.",
+      "watch": "Commercial rights depend on paid plans.",
+      "source": "https://help.suno.com/",
+      "tags": [
+        "creative",
+        "music",
+        "audio",
+        "songs"
+      ]
+    },
+    {
+      "id": "ideogram",
+      "name": "Ideogram",
+      "family": "creative",
+      "description": "Image generation studio known for accurate text rendering, with an API.",
+      "access": "Hosted studio + API",
+      "features": [
+        "image",
+        "visual"
+      ],
+      "billing": "Credits; API per image",
+      "best": "Posters, logos and designs with legible text.",
+      "watch": "Image-only.",
+      "source": "https://developer.ideogram.ai/",
+      "tags": [
+        "creative",
+        "image",
+        "typography",
+        "design",
+        "api"
       ]
     }
   ],

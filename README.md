@@ -7,7 +7,7 @@
 **Find your magic mix.**
 
 <a href="https://askpanoramix.com"><img src="https://img.shields.io/badge/askpanoramix.com-the_record-111111?style=for-the-badge" alt="askpanoramix.com"></a>
-<img src="https://img.shields.io/badge/version-1.2.0-111111?style=for-the-badge" alt="version 1.2.0">
+<img src="https://img.shields.io/badge/version-1.3.0-111111?style=for-the-badge" alt="version 1.3.0">
 <img src="https://img.shields.io/badge/hosting-100%25_static-444444?style=for-the-badge" alt="100 percent static hosting">
 <img src="https://img.shields.io/badge/record-one_signed_JSON-bd2636?style=for-the-badge" alt="One signed JSON record">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111111?style=for-the-badge" alt="MIT license"></a>
@@ -27,7 +27,7 @@
 <th width="33%" align="left">CONTRIBUTE<br>A better ingredient</th>
 </tr>
 <tr valign="top">
-<td>Pick one of 45 common checks or seven lenses: radar gallery, capability matrix, constellation, rivers, alternatives, checklist, stack builder. Compare up to four tools with a plain-English verdict.</td>
+<td>Pick one of 500 ready-made cases (or filter them) and the setup is already filled in: tools, view, filters. Add or swap a variable, then run. Seven lenses: radar gallery, capability matrix, constellation, rivers, alternatives, checklist, stack builder.</td>
 <td>Download the static ZIP, extract it, and upload the contents over FTP/FTPS. SiteGround or almost any ordinary static host will do.</td>
 <td>Submit a source-backed JSON report. Maintainers review, then the signed-merge workflow commits the new record through GitHub's API with a verified signature.</td>
 </tr>
@@ -40,15 +40,15 @@
 
 <p align="center"><a href="#what-you-get">Features</a> · <a href="#upload-to-siteground">SiteGround</a> · <a href="#edit-the-catalogue-without-rebuilding">Edit JSON</a> · <a href="CONTRIBUTING.md">Community reports</a> · <a href="#development">Development</a> · <a href="CHANGELOG.md">Changelog</a> · <a href="SECURITY.md">Security</a> · <a href="#why-panoramix">The name</a></p>
 
-Panoramix is a record, not a product. One JSON file, [`client/public/catalog.json`](client/public/catalog.json), holds everything: 48 tools, 10 families, 15 documented capabilities, every claim tied to an official URL. It changes only through reviewed merges that are committed via GitHub's API and therefore carry GitHub's verified signature. The static site at [askpanoramix.com](https://askpanoramix.com) is a window onto that file: it embeds the record's SHA-256 and the rendering commit at build time, re-hashes the served copy on load, and shows an **Intact / Altered** seal.
+Panoramix is a record, not a product. One JSON file, [`client/public/catalog.json`](client/public/catalog.json), holds everything: 82 tools, 10 families, 15 documented capabilities, every claim tied to an official URL. It changes only through reviewed merges that are committed via GitHub's API and therefore carry GitHub's verified signature. The static site at [askpanoramix.com](https://askpanoramix.com) is a window onto that file: it embeds the record's SHA-256 and the rendering commit at build time, re-hashes the served copy on load, and shows an **Intact / Altered** seal.
 
-The initial catalogue covers 48 tools in 10 families: agent workspaces, model gateways, direct inference, media APIs, GPU deployment, cloud AI, first-party model APIs, coding/app builders, automation and creative studios. Computer-style agents are compared as workspaces, not confused with model APIs.
+The catalogue covers 82 tools in 10 families: agent workspaces, model gateways, direct inference, media APIs, GPU deployment, cloud AI, first-party model APIs, coding/app builders, automation and creative studios. Computer-style agents are compared as workspaces, not confused with model APIs.
 
 ## What you get
 
 The production site is HTML, CSS, browser JavaScript, five original engraved illustrations and `catalog.json`. No Node process, SQL service, PHP, API key, paid AI call, analytics, external account or free-text input is required by the deployed app. Space Grotesk loads from Google Fonts with a system fallback.
 
-**45 common checks.** The questions people run most often against the record, grouped: Alternatives, Agents, Models & APIs, Images/video/audio, Control & privacy, Building, The big picture. Each opens a fixed, reproducible view. Same record, same answer, for everyone.
+**500 ready-made cases.** 45 are hand-written; the rest are generated deterministically from the record itself: alternatives to every tool, head-to-head pairs inside each family, family × capability filters, capability combinations and family views. A filter field narrows them by tool, capability or word ("vs", "self-host"); ten rotate on screen every two minutes. Picking a case fills the setup in advance: the tools, the view (head-to-heads open on the capability table), the filters. You can remove, add or swap a tool before running, and every lens stays adjustable. Same record, same case, same answer, for everyone.
 
 **Seven lenses.**
 
@@ -68,7 +68,8 @@ The production site is HTML, CSS, browser JavaScript, five original engraved ill
 
 The six dimensions (Language, Media, Action, Research, Control, Workflow) are derived purely from documented features: each axis is the share of that dimension's tracked features that the official source documents. They are coverage indicators, not quality scores.
 
-<img src="docs/workbench.png" width="100%" alt="The cloud of 45 common checks grouped by theme, with the seven lens buttons beneath">
+<img src="docs/workbench.png" width="100%" alt="The cases list: filter field, group tabs, ten rotating cases one per line, and the seven lens buttons">
+<img src="docs/prepared.png" width="100%" alt="A prepared comparison: the selected tools, a field to add another, the view selector and a preview radar">
 
 <details>
 <summary>See the lenses, the compare view, the record seal and mobile</summary>
@@ -85,7 +86,7 @@ The six dimensions (Language, Media, Action, Research, Control, Workflow) are de
 
 ## Upload to SiteGround
 
-1. Download the [ready-to-host v1.2.0 ZIP](packages/panoramix-siteground-v1.2.0.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
+1. Download the [ready-to-host v1.3.0 ZIP](packages/panoramix-siteground-v1.3.0.zip) and [checksum](packages/SHA256SUMS), get the `panoramix-siteground` artifact from a successful GitHub Actions run, or build it yourself with `npm run package:site`. A GitHub source-code ZIP is not the compiled hosting package.
 2. Extract `panoramix-siteground.zip`. Upload its **contents**, not the outer folder, to the configured document root for `askpanoramix.com` using your FTP/FTPS client.
 3. Confirm that `index.html`, `catalog.json`, the `art/` folder and the `assets/` folder are siblings. Include `.htaccess` if your FTP client hides dotfiles.
 4. Finish the domain and HTTPS setup in your hosting account. These are hosting-side operations, not requirements for a database.
@@ -163,7 +164,7 @@ client/
   index.html                    HTML entry, metadata and social preview
   src/App.tsx                   Landing, checks cloud, lens panel, browse, drawer, compare, record
   src/lenses.tsx                Seven lenses: radars, matrix, constellation, rivers, alternatives, checklist, stack
-  src/questions.ts              The 45 common checks and the view each one opens
+  src/questions.ts              45 hand-written cases + the generator for the 500, filter and rotating deck
   src/data.ts                   Record loader, six derived dimensions, integrity hash
   src/index.css                 Monochrome design system, Space Grotesk, motion
   public/catalog.json           Editable public catalogue, loaded at runtime
@@ -191,7 +192,7 @@ Initial research snapshot: 22 October 2026. The directory is curated and not exh
 
 Family classification, use cases and caution notes are editorial. A documented signal is not an audit, certification or exhaustive feature list. Unconfirmed means unknown, not unsupported. Self-hosting does not automatically mean private or offline inference. OpenAI-style compatibility does not guarantee endpoint parity. Vision input is not image generation.
 
-There is no free-text input and no matcher: the 45 checks are hand-written views of the record, so two people opening the same check see the same thing. Panoramix does not fetch prices or estimate credit use; billing context is a pointer to the official terms.
+The filter field only narrows the 500 cases; it is not a matcher or a model. Every case is a deterministic view of the record, so two people opening the same case see the same thing. Panoramix does not fetch prices or estimate credit use; billing context is a pointer to the official terms.
 
 ## Why Panoramix?
 
