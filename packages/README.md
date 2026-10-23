@@ -1,8 +1,8 @@
 # Packages
 
-These are generated, ready-to-host distributions, not source dependencies. The current maintenance package is v1.2.0.
+These are generated, ready-to-host distributions, not source dependencies. The current maintenance package is v1.3.0.
 
-- [Panoramix v1.2.0 SiteGround ZIP](panoramix-siteground-v1.2.0.zip) — built from commit `74f4c76`: the record, 45 checks, seven lenses, integrity seal.
+- [Panoramix v1.3.0 SiteGround ZIP](panoramix-siteground-v1.3.0.zip) — built from commit `f149fee`: 82 tools, 500 ready-made cases, prepared comparisons, seven lenses, integrity seal.
 - [Panoramix v1.0.1 SiteGround ZIP](panoramix-siteground-v1.0.1.zip) — apothecary design, kept for reference.
 - [Panoramix v1.0.0 SiteGround ZIP](panoramix-siteground-v1.0.0.zip) — first release.
 
